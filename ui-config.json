@@ -1,0 +1,23 @@
+{
+    "title": "VN AIDoctor - AI solutions for medical imaging",
+    "sidebar-brand-text": "VN AIDoctor",
+    "logo": "img/icon.svg",
+    "sections": [
+        {
+            "id": "chest_xray",
+            "layout": "default",
+            "title": "Chest X-Ray",
+            "icon": "fa-x-ray",
+            "api_enpoint": "/api/chest_xray",
+            "img_placeholder": "img/xray.jpeg"
+        },
+        {
+            "id": "brain_tumor",
+            "layout": "default",
+            "title": "Brain Tumor",
+            "icon": "fa-brain",
+            "api_enpoint": "/api/brain_tumor",
+            "img_placeholder": "img/brain-ct.jpg"
+        }
+    ]
+}

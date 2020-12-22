@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>AI Doctor - AI solutions for medical imaging</title>
+    <title>{{title}}</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -35,7 +35,7 @@
                 <div class="sidebar-brand-icon">
                     <img src="img/icon.svg" style="width: 3rem; height: 3rem"/>
                 </div>
-                <div class="sidebar-brand-text mx-3">AI Doctor</div>
+                <div class="sidebar-brand-text mx-3">AI Demo System</div>
             </a>
 
             <!-- Divider -->
@@ -50,17 +50,18 @@
             </div>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-x-ray"></i>
-                    <span>Chest X-Ray</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-brain"></i>
-                    <span>Brain Tumor</span></a>
-            </li>
+            <div id="section-menu">
+                <!-- <li class="nav-item active">
+                    <a class="nav-link" href="index.html">
+                        <i class="fas fa-x-ray"></i>
+                        <span>Chest X-Ray</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        <i class="fas fa-brain"></i>
+                        <span>Brain Tumor</span></a>
+                </li>     -->
+            </div>
             
 
             <!-- Divider -->
@@ -146,8 +147,8 @@
                             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mb-2"><i
                                 class="fas fa-download fa-sm"></i> Generate Report</a>
                         </div>
-                        <div class="col col-md-12">
-                            <img src="img/xray.jpeg" style="width: 100%;">
+                        <div class="col col-md-12" style="position: relative;">
+                            <img id="display-image" src="img/xray.jpeg" style="height: 40rem;">
                         </div>
                     </div>
 
@@ -186,6 +187,10 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <script src="js/sb-admin-2.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.js" integrity="sha512-0goo56vbVLOJt9J6TMouBm2uE+iPssyO+70sdrT+J5Xbb5LsdYs31Mvj4+LntfPuV+VlK0jcvcinWQG5Hs3pOg==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.css" integrity="sha512-1cfqrTRQ8V1TnQsSu97+x7PoylALHKOQuwpFaa6lwe6lo5EOUmGNmX3LBq/yxUokfGaUtWkjZJGmuXqG5THgdA==" crossorigin="anonymous" />
+
     <script src="js/ui-loader.min.js"></script>
 </body>
 

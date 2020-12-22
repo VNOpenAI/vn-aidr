@@ -30,7 +30,8 @@
         "@fortawesome/fontawesome-free": "5.15.1",
         "bootstrap": "4.5.3",
         "jquery": "3.5.1",
-        "jquery.easing": "^1.4.1"
+        "jquery.easing": "^1.4.1",
+        "viewerjs": "^1.9.0"
     },
     "devDependencies": {
         "browser-sync": "2.26.13",

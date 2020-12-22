@@ -22,7 +22,9 @@
         }
 
         &.active {
+            
             .nav-link {
+                background: rgba(255, 255, 255, 0.05);
                 font-weight: 700;
             }
         }
@@ -155,7 +157,7 @@
 
     .sidebar-heading {
         text-align: center;
-        padding: 0 1rem;
+        padding: 0.5rem 1rem;
         font-weight: 800;
         font-size: 0.65rem;
         @extend .text-uppercase;

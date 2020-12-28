@@ -10093,10 +10093,6 @@ a:focus {
   display: none;
 }
 
-* {
-  font-size: 1.1rem;
-}
-
 .sidebar .nav-item.dropdown .dropdown-toggle::after,
 .topbar .nav-item.dropdown .dropdown-toggle::after {
   width: 1rem;

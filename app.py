@@ -1,11 +1,13 @@
 import cv2
+import os
 import numpy as np
 import uvicorn
 import base64
 import onnxruntime as rt
-from fastapi import FastAPI
+from starlette.responses import RedirectResponse
 from starlette.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File
+from fastapi.staticfiles import StaticFiles
 
 # intialising the fastapi.
 app = FastAPI()
@@ -13,14 +15,18 @@ app.add_middleware(
     CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
 
+# Load model
 session = rt.InferenceSession("trained_models\ct_lung_segmentation_20201228.onnx")
-input_name = session.get_inputs()[0].name
-output_name = session.get_outputs()[0].name
+
+# Static files
+@app.route("/")
+def homepage(data):
+    return RedirectResponse(url='/ui/index.html')
+app.mount("/ui/", StaticFiles(directory="frontend"), name="static")
 
 @app.post("/api/lung_ct")
 def lung_ct_endpoint(file: bytes = File(...)):
 
-    # contents = file.read()
     nparr = np.fromstring(file, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
     img = cv2.resize(img, (256, 256))

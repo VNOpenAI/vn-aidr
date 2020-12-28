@@ -8,7 +8,7 @@
             "layout": "default",
             "title": "Lung Diseases on CT",
             "icon": "fa-x-ray",
-            "api_endpoint": "http://127.0.0.1:5000/api/lung_ct",
+            "api_endpoint": "/api/lung_ct",
             "img_placeholder": "img/lung_sementation.png"
         },
         {

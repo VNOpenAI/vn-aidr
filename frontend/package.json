@@ -3,7 +3,8 @@
     "name": "open-ai-doctor",
     "version": "0.0.1",
     "scripts": {
-        "start": "node_modules/.bin/gulp watch"
+        "start": "node_modules/.bin/gulp watch",
+        "build": "node_modules/.bin/gulp build"
     },
     "description": "An open source medical image processing project.",
     "keywords": [

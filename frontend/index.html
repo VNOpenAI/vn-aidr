@@ -79,7 +79,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <h2>Chest X-Ray</h2>
+                    <h2 id="section-title"></h2>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -123,26 +123,49 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid p-2">
+                <div class="container-fluid pl-4 pr-4 pt-2">
 
                     <!-- Content Row -->
-                    <div class="row">
-                        <div class="p-2 ml-1">
+                    <div class="row mt-0">
+                        <div class="p-2">
                             <input style="display: none;" type="file" id="upload-file" name="file" />
                             <a id="upload-btn" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mb-2"><i
                                 class="fas fa-upload fa-sm"></i> Upload</a>
                         </div>
-                        <div class="p-2 ml-1">
-                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mb-2"><i
+                        <div class="p-2">
+                            <a id="gen-report-btn" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mb-2"><i
                                 class="fas fa-download fa-sm"></i> Generate Report</a>
                         </div>
-                        <div class="col col-md-12" style="position: relative; height: 80vh;">
+                    </div>
+                    <div class="row">    
+                        <div class="col col-12 col-md-2" style="position: relative; height: 10vh;">
+                            <div class="form-group">
+                                <label for="output-log">Output</label>
+                                <textarea readonly style="height: 75vh;" class="form-control bg-dark" id="output-log"></textarea>
+                            </div>
+                        </div>                    
+                        <div class="col col-12 col-md-10" style="position: relative; height: 80vh;">
                             <img id="display-image" src="" style="height: 80vh;">
                         </div>
+                        <div class="loading-modal"></div>
                     </div>
 
                 </div>
                 <!-- /.container-fluid -->
+
+                <style>
+                    .loading-modal {
+                        display: none;
+                        height: 100%;
+                        width: 100%;
+                        position: absolute;
+                        z-index:    1000;
+                        background: rgba( 0, 0, 0, .9 )
+                        url('img/loading.svg')
+                        40% 40%
+                        no-repeat;
+                    }
+                </style>
 
             </div>
             <!-- End of Main Content -->
@@ -208,8 +231,10 @@
     <script src="js/sb-admin-2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.js" integrity="sha512-0goo56vbVLOJt9J6TMouBm2uE+iPssyO+70sdrT+J5Xbb5LsdYs31Mvj4+LntfPuV+VlK0jcvcinWQG5Hs3pOg==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.css" integrity="sha512-1cfqrTRQ8V1TnQsSu97+x7PoylALHKOQuwpFaa6lwe6lo5EOUmGNmX3LBq/yxUokfGaUtWkjZJGmuXqG5THgdA==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 
     <script src="js/ui-loader.min.js"></script>
+    <script src="js/report.min.js"></script>
 </body>
 
 </html>

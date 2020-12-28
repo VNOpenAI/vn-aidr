@@ -5,10 +5,11 @@ $(function () {
     var viewer;
 
     function showLoading() {
-        // TODO
-        // $("#display-image").attr("src", "/img/loading.gif");
-        // viewer.update();
-        // viewer.moveTo(0, 0);
+        $(".loading-modal").show();
+    }
+
+    function hideLoading() {
+        $(".loading-modal").hide();
     }
 
     $.get("ui-config.json", function (data) {
@@ -32,9 +33,11 @@ $(function () {
                 let section = window.UI.sections[i];
                 if (section["id"] == section_id) {
                     console.log("Select: " + section_id);
+                    $('#section-title').html(section["title"]);
                     $('#section-menu li[name="' + section_id + '"]').addClass("active");
                     $("#display-image").attr("src", section["img_placeholder"]);
                     $("#display-image").hide();
+                    $("#output-log").val('');
                     window.UI.api_endpoint = section["api_endpoint"];
                     viewer.update();
                     viewer.moveTo(0, 0);
@@ -75,12 +78,14 @@ $(function () {
         $('#upload-file').click();
     });
     $('#upload-file').change(function () {
+
+        showLoading();
+
         var fd = new FormData();
         var files = $(this)[0].files;
 
         // Check file selected or not
         if (files.length > 0) {
-            showLoading();
             fd.append('file', files[0]);
             console.log("Sending request to: " + window.UI.api_endpoint);
             $.ajax({
@@ -90,6 +95,7 @@ $(function () {
                 contentType: false,
                 processData: false,
                 success: function (response) {
+
                     if (response["success"]) {
                         $("#display-image").attr("src", response["image"]);
                         viewer.update();
@@ -97,8 +103,16 @@ $(function () {
                     } else {
                         alert('Error on processing! Please try again.');
                     }
+                    hideLoading();
+
+                    response["image"] = "...";
+                    $("#output-log").val(JSON.stringify(response));
                 },
+                error: function () {
+                    hideLoading();
+                }
             });
+            $(this).val('');
         } else {
             alert("Please select a file.");
         }

@@ -8,7 +8,7 @@ from starlette.responses import RedirectResponse
 from starlette.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File
 from fastapi.staticfiles import StaticFiles
-from utils import postprocess_mask
+from utils import postprocess_mask, find_contours, draw_contours
 
 # intialising the fastapi.
 app = FastAPI()
@@ -29,10 +29,11 @@ app.mount("/ui/", StaticFiles(directory="frontend"), name="static")
 def lung_ct_endpoint(file: bytes = File(...)):
 
     nparr = np.fromstring(file, np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
     # Inference
-    resized_img = cv2.resize(img, (256, 256))
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    resized_img = cv2.resize(gray, (256, 256))
     net_input = resized_img.astype(np.float32).reshape((1, 1, 256, 256))
     ort_inputs = {session.get_inputs()[0].name: net_input}
     ort_outs = session.run(None, ort_inputs)
@@ -40,9 +41,12 @@ def lung_ct_endpoint(file: bytes = File(...)):
 
     # Process mask
     mask = postprocess_mask(img, mask)
+    contours = find_contours(mask)
+    img = draw_contours(img, contours)
 
     # Generate output image
-    out_img = cv2.hconcat([img, mask])
+    # out_img = cv2.hconcat([img, mask])
+    out_img = img
 
     # Return
     _, im_png = cv2.imencode(".png", out_img)

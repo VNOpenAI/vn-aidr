@@ -8,7 +8,10 @@ from starlette.responses import RedirectResponse
 from starlette.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File
 from fastapi.staticfiles import StaticFiles
-from utils import postprocess_mask
+from faceswap import faceswapfunc
+import imutils
+
+IM_HEIGHT = 500
 
 # intialising the fastapi.
 app = FastAPI()
@@ -16,36 +19,65 @@ app.add_middleware(
     CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
 
-# Load model
-session = rt.InferenceSession("trained_models\ct_lung_segmentation_20201228.onnx")
-
 # Static files
 @app.route("/")
 def homepage(data):
     return RedirectResponse(url='/ui/index.html')
 app.mount("/ui/", StaticFiles(directory="frontend"), name="static")
 
-@app.post("/api/lung_ct")
-def lung_ct_endpoint(file: bytes = File(...)):
+
+face = imutils.resize(cv2.imread("face1.jpg"), height=IM_HEIGHT)
+hairstyle = imutils.resize(cv2.imread("face2.jpg"), height=IM_HEIGHT)
+out_face = faceswapfunc(hairstyle, face)
+
+@app.post("/api/hair")
+def face(file: bytes = File(...)):
+
+    global face, hairstyle, out_face
 
     nparr = np.fromstring(file, np.uint8)
-    img = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
+    hair = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    hair = imutils.resize(hair, height=IM_HEIGHT)
+
+    hairstyle = hair
+    face = imutils.resize(cv2.imread("face1.jpg"), height=IM_HEIGHT)
+    out_face = faceswapfunc(hairstyle, face)
+    out_face = imutils.resize(out_face, height=IM_HEIGHT)
     
-    # Inference
-    resized_img = cv2.resize(img, (256, 256))
-    net_input = resized_img.astype(np.float32).reshape((1, 1, 256, 256))
-    ort_inputs = {session.get_inputs()[0].name: net_input}
-    ort_outs = session.run(None, ort_inputs)
-    mask = ort_outs[0].reshape((256, 256))
-
-    # Process mask
-    mask = postprocess_mask(img, mask)
-
     # Generate output image
-    out_img = cv2.hconcat([img, mask])
+    output_img = cv2.hconcat([face, hairstyle, out_face])
 
     # Return
-    _, im_png = cv2.imencode(".png", out_img)
+    _, im_png = cv2.imencode(".png", output_img)
+    encoded_img = base64.b64encode(im_png)
+    response = {
+        "success": True,
+        "image": 'data:image/png;base64,{}'.format(encoded_img.decode())
+    }
+    return response
+
+
+@app.post("/api/face")
+def face(file: bytes = File(...)):
+
+    global face, hairstyle, out_face
+
+    nparr = np.fromstring(file, np.uint8)
+    face = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    face = imutils.resize(face, height=IM_HEIGHT)
+
+    cv2.imshow("hairstyle", hairstyle)
+    cv2.imshow("face", face)
+    cv2.imshow("out_face", out_face)
+    cv2.waitKey(0)
+    out_face = faceswapfunc(hairstyle, face)
+    out_face = imutils.resize(out_face, height=IM_HEIGHT)
+    
+    # Generate output image
+    output_img = cv2.hconcat([face, hairstyle, out_face])
+
+    # Return
+    _, im_png = cv2.imencode(".png", output_img)
     encoded_img = base64.b64encode(im_png)
     response = {
         "success": True,

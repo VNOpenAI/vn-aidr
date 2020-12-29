@@ -1,4 +1,4 @@
-# VN AI Doctor - Open source medical image processing project
+# VN AIDr - Open source medical image processing project
 ## Requirements
 
 - Python 3.7 + Pip

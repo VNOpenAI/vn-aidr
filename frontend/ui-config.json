@@ -1,7 +1,7 @@
 {
-    "title": "VN AIDoctor - AI solutions for medical imaging",
+    "title": "VN AIDr - AI solutions for medical imaging",
     "sidebar-brand-text": "VN AIDoctor",
-    "logo": "img/icon.svg",
+    "logo": "img/logo.png",
     "sections": [
         {
             "id": "lung_ct",
@@ -9,7 +9,7 @@
             "title": "Lung Diseases on CT",
             "icon": "fa-x-ray",
             "api_endpoint": "/api/lung_ct",
-            "img_placeholder": "img/lung_sementation.png"
+            "img_placeholder": "img/logo-no-text.png"
         },
         {
             "id": "brain_tumor",
@@ -17,7 +17,7 @@
             "title": "Brain Tumor",
             "icon": "fa-brain",
             "api_endpoint": "/api/brain_tumor",
-            "img_placeholder": "img/brain-ct.jpg"
+            "img_placeholder": "img/logo-no-text.png"
         }
     ]
 }

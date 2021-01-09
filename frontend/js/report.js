@@ -28,16 +28,17 @@ $("#gen-pdf-btn").click(function() {
     let medicalConclusion = $("#medical-conclusion-inp").val();
     let doc = new jsPDF()
 
+    doc.setFont('Arial');
     doc.setFontSize(40)
     doc.text(15, 25, 'Medical Report')
 
     doc.setFontSize(12)
-    doc.text(15, 40, 'Patient Name:' + patientName)
-    doc.text(15, 45, doc.splitTextToSize("Conclusion: " + medicalConclusion, 180))
+    doc.text(15, 40, 'Patient Name: ' + patientName)
+    doc.text(15, 50, doc.splitTextToSize("Conclusion: " + medicalConclusion, 180))
 
     let img = new Image()
     img.src = $("#display-image").attr("src");
-    doc.addImage(img, 'png', 15, 55, 100, 150)
+    doc.addImage(img, 'png', 15, 55, 150, 150)
 
     doc.save('medical-report.pdf')
 });

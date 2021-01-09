@@ -68,9 +68,7 @@ $(function () {
     viewer = new Viewer(document.getElementById('display-image'), {
         inline: true,
         navbar: false,
-        viewed() {
-            viewer.zoomTo(1);
-        },
+        title: false
     });
     viewer.show();
 
@@ -105,8 +103,21 @@ $(function () {
                     }
                     hideLoading();
 
-                    response["image"] = "...";
-                    $("#output-log").val(JSON.stringify(response));
+                    let logResult = [];
+                    let probaValues = [];
+                    let proba = response["proba"];
+                    for (var key in proba) {
+                        if (proba.hasOwnProperty(key)) {           
+                            logResult.push(key + ": " + proba[key].toFixed(2));
+                            probaValues.push(proba[key]);
+                        }
+                    }
+                    logResult = logResult.sort(function(a, b){  
+                        return probaValues.indexOf(a) - probaValues.indexOf(b);
+                    }).reverse();
+
+
+                    $("#output-log").val(logResult.join("\n"));
                 },
                 error: function () {
                     hideLoading();

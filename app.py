@@ -9,6 +9,7 @@ from fastapi import FastAPI, File
 from fastapi.staticfiles import StaticFiles
 from vnaccent_runner import VNAccentRunner
 from lung_seg_runner import LungSegmentationRunner
+from chest_xray_runner import ChestXrayModelRunner
 
 app = FastAPI()
 app.add_middleware(
@@ -24,8 +25,9 @@ app.mount("/ui/", StaticFiles(directory="frontend"), name="static")
 # Load models
 accent_model = VNAccentRunner()
 lung_seg_model = LungSegmentationRunner()
+chest_xray_model = ChestXrayModelRunner()
 
-@app.post("/api/lung_ct")
+@app.post("/api/lung_ct_seg")
 def lung_ct_endpoint(file: bytes = File(...)):
 
     nparr = np.fromstring(file, np.uint8)
@@ -44,6 +46,31 @@ def lung_ct_endpoint(file: bytes = File(...)):
     encoded_img = base64.b64encode(im_png)
     response = {
         "success": True,
+        "image": 'data:image/png;base64,{}'.format(encoded_img.decode())
+    }
+    return response
+
+
+@app.post("/api/chest_xray")
+def chest_xray_endpoint(file: bytes = File(...)):
+
+    nparr = np.fromstring(file, np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    
+    # Inference
+    proba, heatmaps = chest_xray_model.predict(img)
+    viz_img = chest_xray_model.get_visualized_img(img, heatmaps)
+
+    # Generate output image
+    # out_img = cv2.hconcat([img, viz_img])
+    out_img = viz_img
+
+    # Return
+    _, im_png = cv2.imencode(".png", out_img)
+    encoded_img = base64.b64encode(im_png)
+    response = {
+        "success": True,
+        "proba": proba,
         "image": 'data:image/png;base64,{}'.format(encoded_img.decode())
     }
     return response

@@ -4,19 +4,19 @@
     "logo": "img/logo.png",
     "sections": [
         {
-            "id": "lung_ct",
+            "id": "chest_xray",
             "layout": "default",
-            "title": "Lung Diseases on CT",
+            "title": "Chest Radiograph Interpretation",
             "icon": "fa-x-ray",
-            "api_endpoint": "/api/lung_ct",
+            "api_endpoint": "/api/chest_xray",
             "img_placeholder": "img/logo-no-text.png"
         },
         {
-            "id": "brain_tumor",
+            "id": "lung_ct",
             "layout": "default",
-            "title": "Brain Tumor",
-            "icon": "fa-brain",
-            "api_endpoint": "/api/brain_tumor",
+            "title": "Lung CT Segmentation",
+            "icon": "fa-layer-group",
+            "api_endpoint": "/api/lung_ct_seg",
             "img_placeholder": "img/logo-no-text.png"
         }
     ]

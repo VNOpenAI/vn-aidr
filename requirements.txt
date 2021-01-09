@@ -12,6 +12,7 @@ click==7.1.2
 cycler==0.10.0
 cymem==2.0.5
 decorator==4.4.2
+easydict==1.9
 fastai==1.0.61
 fastapi==0.63.0
 fastprogress==1.0.0

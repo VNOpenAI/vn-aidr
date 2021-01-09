@@ -217,6 +217,36 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    <div class="modal fade" id="medical-report-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New medical report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Patient Name:</label>
+                    <input type="text" class="form-control" id="patient-name-inp">
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">Conclusion:</label>
+                    <textarea class="form-control" id="medical-conclusion-inp"></textarea>
+                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="add-accent-btn" type="button" class="btn btn-primary">Add Accent</button>
+                <button id="gen-pdf-btn" type="button" class="btn btn-primary">Export PDF</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

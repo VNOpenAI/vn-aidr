@@ -50,14 +50,15 @@ def lung_ct_endpoint(file: bytes = File(...)):
 
 
 # Process medical conclusion
-@app.get("/api/accent")
+@app.get("/api/vn_accent")
 def accented(text):
     """ Add accent to given plain text """
     accented_text = accent_model.predict(text)
     print(accented_text)
     return {
-        'original': text,
-        'with_accent': accented_text
+        "success": True,
+        "original": text,
+        "with_accent": accented_text
     }
 
 if __name__ == '__main__':

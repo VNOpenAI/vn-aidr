@@ -13,6 +13,14 @@ from model_utils.vn_accent.models.transformer_utils.mask import create_src_mask
 from model_utils.vn_accent.models.model_factory import get_model
 from config import *
 
+def forward(model, src, src_pad_token=0, use_mask=True):
+    if use_mask:
+        src_mask = create_src_mask(src, pad_token=src_pad_token)
+        logit = model(src, src_mask)
+    else:
+        logit = model(src)
+    return logit
+
 class VNAccentRunner():
 
     def __init__(self):

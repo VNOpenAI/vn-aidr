@@ -2,3 +2,4 @@
 /trained_models/.gitkeep
 __pycache__
 *.pyc
+/.vscode

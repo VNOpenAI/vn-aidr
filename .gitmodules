@@ -1,0 +1,3 @@
+[submodule "vn-accent"]
+	path = vn-accent
+	url = https://github.com/VNOpenAI/vn-accent.git

@@ -1,5 +1,5 @@
 /trained_models
-/trained_models/.gitkeep
+!/trained_models/.gitkeep
 __pycache__
 *.pyc
 /.vscode

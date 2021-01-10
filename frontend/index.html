@@ -33,9 +33,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon">
-                    <img src="img/logo.png" style="height: 4rem"/>
+                    <img src="img/logo.png" style="width: 8rem; max-width: 100%;"/>
                 </div>
-                <!-- <div class="sidebar-brand-text mx-3">AI Demo System</div> -->
+                <!-- <div class="sidebar-brand-text mx-3"></div> -->
             </a>
 
             <!-- Divider -->
@@ -79,7 +79,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <h2 id="section-title"></h2>
+                    <h2 id="section-title" style="font-size: 1.6rem;"></h2>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -138,14 +138,19 @@
                         </div>
                     </div>
                     <div class="row">    
-                        <div class="col col-12 col-md-2" style="position: relative; height: 10vh;">
-                            <div class="form-group">
-                                <label for="output-log">Output</label>
-                                <textarea readonly style="height: 75vh;" class="form-control bg-dark" id="output-log"></textarea>
-                            </div>
-                        </div>                    
-                        <div class="col col-12 col-md-10" style="position: relative; height: 80vh;">
+                        <div class="col col-12 col-md-8 col-lg-9 col-xl-10" style="position: relative; height: 80vh;">
                             <img id="display-image" src="" style="height: 80vh;">
+                        </div>
+                        <div class="col col-12 col-md-4 col-lg-3 col-xl-2" style="position: relative; height: 10vh;">
+                            <h2 style="font-size: 1.2rem; text-align: center; margin-top: 2rem; color: #04d6b3; font-weight: bold;">
+                                OUTPUT
+                            </h2>
+                            <div id="proba-chart-wrapper" class="form-group" style="display: none;">
+                                <canvas id="proba-chart"></canvas>
+                            </div>
+                            <div class="form-group">
+                                <textarea readonly style="height: 60vh;" class="form-control bg-dark" id="output-log"></textarea>
+                            </div>
                         </div>
                         <div class="loading-modal"></div>
                     </div>
@@ -169,16 +174,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; AI Doctor 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
@@ -259,11 +254,17 @@
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.js" integrity="sha512-0goo56vbVLOJt9J6TMouBm2uE+iPssyO+70sdrT+J5Xbb5LsdYs31Mvj4+LntfPuV+VlK0jcvcinWQG5Hs3pOg==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.css" integrity="sha512-1cfqrTRQ8V1TnQsSu97+x7PoylALHKOQuwpFaa6lwe6lo5EOUmGNmX3LBq/yxUokfGaUtWkjZJGmuXqG5THgdA==" crossorigin="anonymous" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.0/jspdf.min.js" integrity="sha512-pZmE8nx/gdufIRZ9DdgsipK4ocMbdq6zU2epbECb4/iwu9bHfN3aDYmOiVNC8SHk90uWi03o1ziB6JEd6/3VQA==" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
+
     <script src="js/ui-loader.min.js"></script>
+    <script src="js/chart-init.min.js"></script>
     <script src="js/Arial-font.min.js"></script>
     <script src="js/report.min.js"></script>
 </body>

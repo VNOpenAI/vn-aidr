@@ -28,6 +28,7 @@ $(function () {
         UI.sections = sections;
 
         function selectFeature(section_id) {
+            $("#proba-chart-wrapper").hide();
             $("#section-menu li").removeClass("active");
             for (let i = 0; i < window.UI.sections.length; ++i) {
                 let section = window.UI.sections[i];
@@ -104,20 +105,26 @@ $(function () {
                     hideLoading();
 
                     let logResult = [];
+                    let probaTitles = [];
                     let probaValues = [];
                     let proba = response["proba"];
                     for (var key in proba) {
-                        if (proba.hasOwnProperty(key)) {           
-                            logResult.push(key + ": " + proba[key].toFixed(2));
-                            probaValues.push(proba[key]);
+                        if (proba.hasOwnProperty(key)) {  
+                            let probaValue = (proba[key] * 100).toFixed(1);      
+                            logResult.push(key + ": " + probaValue + "%");
+                            probaTitles.push(key);
+                            probaValues.push(probaValue);
                         }
                     }
-                    logResult = logResult.sort(function(a, b){  
-                        return probaValues.indexOf(a) - probaValues.indexOf(b);
-                    }).reverse();
 
-
+                    // Update log
                     $("#output-log").val(logResult.join("\n"));
+
+                    // Update chart
+                    $("#proba-chart-wrapper").fadeIn();
+                    window.probaChartData.labels = probaTitles;
+                    window.probaChartData.datasets[0].data = probaValues;
+                    window.probaChart.update();
                 },
                 error: function () {
                     hideLoading();

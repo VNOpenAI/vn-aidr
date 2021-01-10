@@ -49,11 +49,11 @@ class VNAccentRunner():
         self.device = torch.device('cuda' if torch.cuda.is_available() and USE_GPU else 'cpu')
         print("Using", self.device.type)
         if self.device.type=='cuda':
-            self.model = model.cuda()
+            self.model = self.model.cuda()
 
         if os.path.isfile(ACCENT_MODEL_PATH):
             print("Load model")
-            state = torch.load(ACCENT_MODEL_PATH)
+            state = torch.load(ACCENT_MODEL_PATH, map_location=self.device)
             if isinstance(state, dict):
                 self.model.load_state_dict(state['model'])
             else:

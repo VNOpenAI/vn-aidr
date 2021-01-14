@@ -46,10 +46,11 @@ def fix_ratio(image, cfg):
 
 def preprocess(cfg, image):
 
+    # Convert to gray
     if image.ndim != 2:
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     else:
-        gray = image
+        image = image
 
     if cfg.use_equalizeHist:
         image = cv2.equalizeHist(image)

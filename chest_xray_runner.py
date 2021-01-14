@@ -49,10 +49,17 @@ class ChestXrayModelRunner():
 
         # Heatmap
         heatmaps = ort_outs[5:10]
+        
+        if len(heatmaps) > 0:
 
-        # Remove paddding for heatmap
-        for i in range(len(heatmaps)):
-            heatmaps[i] = remove_padding(heatmaps[i], width_pad_percent, height_pad_percent)
+            # Filter heatmaps by probability
+            for i in range(len(proba)):
+                if (proba[i] < 0.5):
+                    heatmaps[i][:, :] = 0
+
+            # Remove padding for heatmap
+            for i in range(len(heatmaps)):
+                heatmaps[i] = remove_padding(heatmaps[i], width_pad_percent, height_pad_percent)
 
         return proba_with_labels, heatmaps
 
@@ -64,11 +71,14 @@ class ChestXrayModelRunner():
         """
         heatmap = np.sum(heatmaps, axis=0)
         heatmap = np.maximum(heatmap, 0)
-        heatmap /= np.max(heatmap)
+        if  np.max(heatmap) != 0:
+            heatmap = heatmap / np.max(heatmap)
 
         heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
         heatmap = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
 
-        intensity = 0.2
-        img = heatmap * intensity + img
+        alpha = 0.2
+        beta = 1 - alpha
+        img = cv2.addWeighted(heatmap, alpha, img, beta, 0.0)
+
         return img

@@ -66,11 +66,13 @@ def chest_xray_endpoint(file: bytes = File(...)):
     
     # Inference
     proba, heatmaps = chest_xray_model.predict(img)
-    viz_img = chest_xray_model.get_visualized_img(img, heatmaps)
-
-    # Generate output image
-    # out_img = cv2.hconcat([img, viz_img])
-    out_img = viz_img
+    out_img = None
+    if heatmaps:
+        viz_img = chest_xray_model.get_visualized_img(img, heatmaps)
+        viz_img = cv2.resize(viz_img, (img.shape[1], img.shape[0]))
+        out_img = cv2.hconcat([img, viz_img])
+    else:
+        out_img = img
 
     # Return
     _, im_png = cv2.imencode(".png", out_img)

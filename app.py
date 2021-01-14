@@ -1,3 +1,4 @@
+from config import ENABLE_ACCENT_MODEL
 import cv2
 import argparse
 import numpy as np
@@ -30,7 +31,8 @@ def homepage(data):
 app.mount("/ui/", StaticFiles(directory="frontend"), name="static")
 
 # Load models
-accent_model = VNAccentRunner()
+if ENABLE_ACCENT_MODEL:
+    accent_model = VNAccentRunner()
 lung_seg_model = LungSegmentationRunner()
 chest_xray_model = ChestXrayModelRunner()
 
@@ -89,8 +91,10 @@ def chest_xray_endpoint(file: bytes = File(...)):
 @app.get("/api/vn_accent")
 def accented(text):
     """ Add accent to given plain text """
-    accented_text = accent_model.predict(text)
-    print(accented_text)
+    if ENABLE_ACCENT_MODEL:
+        accented_text = accent_model.predict(text)
+    else:
+        accented_text = text
     return {
         "success": True,
         "original": text,

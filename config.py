@@ -1,5 +1,6 @@
 USE_GPU = False
 
+ENABLE_ACCENT_MODEL = False
 ACCENT_MODEL_CONFIG_PATH = "model_utils/vn_accent/model_config.json"
 ACCENT_MODEL_NAME = "transformer_evolved"
 ACCENT_MODEL_PATH = "trained_models/vn_accent/transformer_evolved_ep14.h5"

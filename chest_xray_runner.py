@@ -29,9 +29,8 @@ class ChestXrayModelRunner():
         Input: BGR image
         Output: probability mask, label
         """
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         
-        processed_img, padding_percent = preprocess(self.cfg, gray)
+        processed_img, padding_percent = preprocess(self.cfg, img)
         width_pad_percent, height_pad_percent = padding_percent
 
         net_input = np.expand_dims(processed_img, axis=0)

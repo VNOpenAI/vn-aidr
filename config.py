@@ -7,5 +7,5 @@ ACCENT_MODEL_TOKENIZER_PATH = "trained_models/vn_accent/tokenizer.h5"
 
 LUNG_CT_SEGMENTATION_MODEL_PATH = "trained_models/ct_lung_segmentation_20201228.onnx"
 
-CHEST_XRAY_MODEL_PATH = "trained_models/chest_xray/chest_xray_20210109.onnx"
+CHEST_XRAY_MODEL_PATH = "trained_models/chest_xray/chest_xray_resnest50_20210114.onnx"
 CHEST_XRAY_CONFIG_PATH = "trained_models/chest_xray/chest_xray_20210109_config.json"

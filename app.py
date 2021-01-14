@@ -1,5 +1,5 @@
 import cv2
-import os
+import argparse
 import numpy as np
 import uvicorn
 import base64
@@ -10,6 +10,13 @@ from fastapi.staticfiles import StaticFiles
 from vnaccent_runner import VNAccentRunner
 from lung_seg_runner import LungSegmentationRunner
 from chest_xray_runner import ChestXrayModelRunner
+
+
+def get_arg():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', type=int, default=5000, required=False)
+    args = parser.parse_args()
+    return args
 
 app = FastAPI()
 app.add_middleware(
@@ -89,4 +96,5 @@ def accented(text):
     }
 
 if __name__ == '__main__':
-    uvicorn.run("app:app",host='0.0.0.0', port=5000, reload=True, debug=True, workers=1)
+    args = get_arg()
+    uvicorn.run("app:app",host='0.0.0.0', port=args.port, reload=True, debug=True, workers=1)

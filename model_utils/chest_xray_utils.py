@@ -4,12 +4,26 @@ import cv2
 
 def border_pad(image, cfg):
     h, w, c = image.shape
-    image = np.pad(image, ((0, cfg.long_side - h), (0, cfg.long_side - w), (0, 0)),
-                    mode='constant',
-                    constant_values=0.0)
+
+    if cfg.border_pad == 'zero':
+        image = np.pad(image, ((0, cfg.long_side - h),
+                               (0, cfg.long_side - w), (0, 0)),
+                       mode='constant',
+                       constant_values=0.0)
+    elif cfg.border_pad == 'pixel_mean':
+        image = np.pad(image, ((0, cfg.long_side - h),
+                               (0, cfg.long_side - w), (0, 0)),
+                       mode='constant',
+                       constant_values=cfg.pixel_mean)
+    else:
+        image = np.pad(image, ((0, cfg.long_side - h),
+                               (0, cfg.long_side - w), (0, 0)),
+                       mode=cfg.border_pad)
+
     height_pad_percent = (cfg.long_side - h) / cfg.long_side
     width_pad_percent = (cfg.long_side - w) / cfg.long_side
     return image, (width_pad_percent, height_pad_percent)
+
 
 
 def fix_ratio(image, cfg):
@@ -31,7 +45,12 @@ def fix_ratio(image, cfg):
 
 
 def preprocess(cfg, image):
-    assert image.ndim == 2, "image must be gray image"
+
+    if image.ndim != 2:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = image
+
     if cfg.use_equalizeHist:
         image = cv2.equalizeHist(image)
 

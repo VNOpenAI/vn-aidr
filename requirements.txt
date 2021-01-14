@@ -16,8 +16,10 @@ easydict==1.9
 fastai==1.0.61
 fastapi==0.63.0
 fastprogress==1.0.0
+filelock==3.0.12
 flatbuffers==1.12
 gast==0.3.3
+gdown==3.12.2
 google-auth==1.24.0
 google-auth-oauthlib==0.4.2
 google-pasta==0.2.0
@@ -38,6 +40,7 @@ numexpr==2.7.1
 numpy==1.19.2
 nvidia-ml-py3==7.352.0
 oauthlib==3.1.0
+onnx==1.8.0
 onnxruntime==1.6.0
 opencv-python==4.4.0.46
 opt-einsum==3.3.0
@@ -51,6 +54,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pydantic==1.7.3
 pyparsing==2.4.7
+PySocks==1.7.1
 python-dateutil==2.8.1
 python-multipart==0.0.5
 pytz==2020.5

@@ -1,17 +1,22 @@
-from config import ENABLE_ACCENT_MODEL
-import cv2
 import argparse
+import base64
+
+import cv2
 import numpy as np
 import uvicorn
-import base64
-from starlette.responses import RedirectResponse
-from starlette.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, File
 from fastapi.staticfiles import StaticFiles
-from vnaccent_runner import VNAccentRunner
-from lung_seg_runner import LungSegmentationRunner
-from chest_xray_runner import ChestXrayModelRunner
+from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import RedirectResponse
 
+from chest_xray_runner import ChestXrayModelRunner
+from config import ENABLE_ACCENT_MODEL
+from download_models import download_models_and_data
+from lung_seg_runner import LungSegmentationRunner
+from vnaccent_runner import VNAccentRunner
+
+# Download models and data first
+download_models_and_data()
 
 def get_arg():
     parser = argparse.ArgumentParser()

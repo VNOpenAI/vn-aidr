@@ -46,6 +46,9 @@ def fix_ratio(image, cfg):
 
 def preprocess(cfg, image):
 
+    if image is None:
+        return None, None
+
     # Convert to gray
     if image.ndim != 2:
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

@@ -137,7 +137,7 @@
                                 class="fas fa-download fa-sm"></i> Generate Report</a>
                         </div>
                     </div>
-                    <div class="row">    
+                    <div class="row" style="position: relative;">    
                         <div class="col col-12 col-sm-6 col-md-7 col-lg-9 col-xl-9" style="position: relative; height: 80vh;">
                             <img id="display-image" src="" style="height: 80vh;">
                         </div>
@@ -161,8 +161,10 @@
                 <style>
                     .loading-modal {
                         display: none;
-                        height: 100%;
-                        width: 100%;
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
                         position: absolute;
                         z-index:    1000;
                         background: rgba( 0, 0, 0, .9 )

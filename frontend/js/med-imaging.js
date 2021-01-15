@@ -92,6 +92,10 @@ $(function () {
             console.log("Sending request to: " + window.UI.api_endpoint);
 
             // Show original image
+            if (viewer) {
+                viewer.destroy();
+            }
+            initViewer();
             let reader = new FileReader();
             reader.onload = (function() {
                 return function(e) {

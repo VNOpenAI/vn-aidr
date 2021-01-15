@@ -78,13 +78,12 @@ class ChestXrayModelRunner():
         # Only show large values on heatmap
         p80 = np.quantile(heatmap, 0.8)
         heatmap[heatmap < p80] = 0
-        
-        # Create color heatmap
         heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
-
+        heatmap = cv2.GaussianBlur(heatmap, (11, 11), 0)
+        
         # Bind color heatmap with original image
         color_heatmap = cv2.applyColorMap(np.uint8(255*heatmap), cv2.COLORMAP_JET)
-        binded_img = cv2.addWeighted(color_heatmap, 0.2, img, 0.8, 0.0)
+        binded_img = cv2.addWeighted(color_heatmap, 0.3, img, 0.7, 0.0)
         bgr_heatmap = cv2.cvtColor(heatmap, cv2.COLOR_GRAY2BGR)
         binded_img = (bgr_heatmap * binded_img).astype(np.uint8)
         bg_img = img.copy()

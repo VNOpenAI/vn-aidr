@@ -9,16 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{{title}}</title>
+    <title>VN AIDr - AI solutions for medical imaging</title>
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link href="css/styles.min.css" rel="stylesheet">
 
 </head>
 
@@ -168,9 +168,9 @@
                         position: absolute;
                         z-index:    1000;
                         background: rgba( 0, 0, 0, .9 )
-                        url('img/loading.svg')
-                        40% 40%
-                        no-repeat;
+                            url('img/loading.svg')
+                            50% 50%
+                            no-repeat;
                     }
                 </style>
 
@@ -192,17 +192,8 @@
                 </button>
                 </div>
                 <div class="modal-body" style="color: #fff">
-                    <p>VN AIDoctor - AI solutions for medical imaging - An open source from <b><a style="color:#fff" href="https://github.com/VNOpenAI">VNOpenAI</a></b>.</p>
-                    <p>
-                        <b>Team members:</b><br>
-                        <ul>
-                            <li>Nguyễn Việt Anh (github.com/vietanhdev)</li>
-                            <li>Trần Tiến Thành (github.com/thanhtran98)</li>
-                            <li>Đỗ Viết Chính (github.com/dovietchinh)</li>
-                            <li>Đào Cư Hùng Phi (github.com/PhiDCH)</li>
-                        </ul>
-                    </p>
-                    <p><b>Source code:</b> <a style="color:#fff" href="https://github.com/VNOpenAI/ai-doctor">https://github.com/VNOpenAI/ai-doctor</a>.</p>
+                    <p>VN AIDr - AI solutions for medical image processing - An open source from <b><a style="color:#fff" href="https://vnopenai.org/">VNOpenAI</a></b>.</p>
+                    <p><b>Source code:</b> <a style="color:#fff" href="https://github.com/VNOpenAI/vn-aidr">https://github.com/VNOpenAI/vn-aidr</a>.</p>
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -214,6 +205,8 @@
     </div>
     <!-- End of Page Wrapper -->
 
+
+    <!-- Medical Report Modal -->
     <div class="modal fade" id="medical-report-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -243,6 +236,7 @@
             </div>
         </div>
     </div>
+    <!-- End of Medical Report Modal -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -255,20 +249,23 @@
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/main.min.js"></script>
 
+    <!-- Medical image processing models -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.js" integrity="sha512-0goo56vbVLOJt9J6TMouBm2uE+iPssyO+70sdrT+J5Xbb5LsdYs31Mvj4+LntfPuV+VlK0jcvcinWQG5Hs3pOg==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.9.0/viewer.min.css" integrity="sha512-1cfqrTRQ8V1TnQsSu97+x7PoylALHKOQuwpFaa6lwe6lo5EOUmGNmX3LBq/yxUokfGaUtWkjZJGmuXqG5THgdA==" crossorigin="anonymous" />
+    <script src="js/med-imaging.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.0/jspdf.min.js" integrity="sha512-pZmE8nx/gdufIRZ9DdgsipK4ocMbdq6zU2epbECb4/iwu9bHfN3aDYmOiVNC8SHk90uWi03o1ziB6JEd6/3VQA==" crossorigin="anonymous"></script>
-
+    <!-- Probability Chart -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
-
-    <script src="js/ui-loader.min.js"></script>
     <script src="js/chart-init.min.js"></script>
+
+    <!-- Reports -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.0/jspdf.min.js" integrity="sha512-pZmE8nx/gdufIRZ9DdgsipK4ocMbdq6zU2epbECb4/iwu9bHfN3aDYmOiVNC8SHk90uWi03o1ziB6JEd6/3VQA==" crossorigin="anonymous"></script>
     <script src="js/Arial-font.min.js"></script>
     <script src="js/report.min.js"></script>
+
 </body>
 
 </html>

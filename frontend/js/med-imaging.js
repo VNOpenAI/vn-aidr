@@ -1,6 +1,6 @@
-$(function () {
+"use strict";
 
-    'use strict';
+$(function () {
 
     var viewer;
 
@@ -113,12 +113,21 @@ $(function () {
                     let logResult = [];
                     let probaTitles = [];
                     let probaValues = [];
+
+                    if (!response["prepend_original_image"]) {
+                        $("#viewer-images").html("");
+                    }
+
                     for (let i = 0; i < results.length; ++i) {
                         let result = results[i];
-                        let probaValue = (result["probability"] * 100).toFixed(1);      
-                        logResult.push(result["label"] + ": " + probaValue + "%");
-                        probaTitles.push(result["label"]);
-                        probaValues.push(probaValue);
+
+                        if ("probability" in result && "label" in result) {
+                            let probaValue = (result["probability"] * 100).toFixed(1);      
+                            logResult.push(result["label"] + ": " + probaValue + "%");
+                            probaTitles.push(result["label"]);
+                            probaValues.push(probaValue);
+                        }
+                        
                         if ("image" in result) {
                             let html = $("#viewer-images").html();
                             $("#viewer-images").html(html + '<li><img src="' + result["image"] + '" alt="' + result["label"] + '"></li>');
@@ -135,12 +144,15 @@ $(function () {
                     window.probaChartData.labels = probaTitles;
                     window.probaChartData.datasets[0].data = probaValues;
                     window.probaChart.update();
+
+                    $("#upload-file").val('');
                 },
                 error: function () {
                     hideLoading();
+                    $("#upload-file").val('');
                 }
             });
-            $(this).val('');
+            
         } else {
             alert("Please select a file.");
         }

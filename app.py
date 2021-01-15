@@ -62,7 +62,13 @@ def lung_ct_endpoint(file: bytes = File(...)):
     encoded_img = base64.b64encode(im_png)
     response = {
         "success": True,
-        "image": 'data:image/png;base64,{}'.format(encoded_img.decode())
+        "prepend_original_image": False,
+        "results": [
+            {
+                "label": "Segmentation Map",
+                "image": 'data:image/png;base64,{}'.format(encoded_img.decode())
+            }
+        ]
     }
     return response
 
@@ -99,6 +105,7 @@ def chest_xray_endpoint(file: bytes = File(...)):
 
     response = {
         "success": True,
+        "prepend_original_image": True,
         "results": api_results
     }
     return response

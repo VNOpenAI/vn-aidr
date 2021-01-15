@@ -15,6 +15,8 @@ from download_models import download_models_and_data
 from lung_seg_runner import LungSegmentationRunner
 from vnaccent_runner import VNAccentRunner
 
+from utils import get_base64_png
+
 # Download models and data first
 download_models_and_data()
 
@@ -72,22 +74,32 @@ def chest_xray_endpoint(file: bytes = File(...)):
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
     # Inference
-    proba, heatmaps = chest_xray_model.predict(img)
-    out_img = None
-    if heatmaps:
-        viz_img = chest_xray_model.get_visualized_img(img, heatmaps)
-        viz_img = cv2.resize(viz_img, (img.shape[1], img.shape[0]))
-        out_img = cv2.hconcat([img, viz_img])
-    else:
-        out_img = img
+    model_results = chest_xray_model.predict(img)
+    ## Result format:
+    # [{
+    #     "label": <label>
+    #     "probability": 0.9,
+    #     "heatmap": <np.array>
+    # }, ...]
 
-    # Return
-    _, im_png = cv2.imencode(".png", out_img)
-    encoded_img = base64.b64encode(im_png)
+    # Prepare result
+    api_results = []
+    for result in model_results:
+        api_result = {
+            "label": result["label"],
+            "probability": result["probability"]
+        }
+
+        if "heatmap" in result.keys():
+            heatmap = result["heatmap"]
+            color_heatmap = chest_xray_model.get_visualized_img(img, heatmap)
+            base64_img = get_base64_png(color_heatmap)
+            api_result["image"] = base64_img
+        api_results.append(api_result)
+
     response = {
         "success": True,
-        "proba": proba,
-        "image": 'data:image/png;base64,{}'.format(encoded_img.decode())
+        "results": api_results
     }
     return response
 

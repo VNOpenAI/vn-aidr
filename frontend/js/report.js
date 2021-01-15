@@ -10,7 +10,6 @@ $("#add-accent-btn").click(function() {
         type: 'get',
         data: {"text": medicalConclusion},
         success: function (response) {
-            console.log(response);
             if (response["success"]) {
                 $("#medical-conclusion-inp").val(response["with_accent"]);
             } else {

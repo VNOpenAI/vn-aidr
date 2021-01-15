@@ -6,7 +6,8 @@ import numpy as np
 import cv2
 import onnxruntime as rt
 
-from model_utils.lung_seg_utils import postprocess_mask, find_contours, draw_contours
+from model_utils.lung_seg_utils import postprocess_mask
+from model_utils.contours import find_contours, draw_contours
 from config import *
 
 class LungSegmentationRunner():

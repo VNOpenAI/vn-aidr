@@ -13,7 +13,6 @@ window.probaChartData = {
 
 window.onload = function () {
     var ctx = document.getElementById('proba-chart').getContext('2d');
-    console.log(ctx);
     window.probaChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: window.probaChartData,
@@ -37,8 +36,7 @@ window.onload = function () {
                     gridLines: {
                         color: '#001927',
                         lineWidth: 1
-                    },
-                    barPercentage: 0.9
+                    }
                 }],
                 xAxes: [{
                     ticks: {
@@ -51,7 +49,7 @@ window.onload = function () {
                     gridLines: {
                         color: '#001927',
                         lineWidth: 1
-                      }
+                    }
                 }]
             },
             title: false

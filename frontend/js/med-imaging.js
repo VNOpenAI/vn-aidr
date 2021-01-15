@@ -36,10 +36,9 @@ $(function () {
                     console.log("Select: " + section_id);
                     $('#section-title').html(section["title"]);
                     $('#section-menu li[name="' + section_id + '"]').addClass("active");
-                    $("#display-image").attr("src", section["img_placeholder"]);
-                    $("#display-image").hide();
                     $("#output-log").val('');
                     window.UI.api_endpoint = section["api_endpoint"];
+                    $("#viewer-images").html('<img src="' + section["img_placeholder"] + '" alt="VN AIDr">');
                     viewer.update();
                     viewer.moveTo(0, 0);
                     break;
@@ -66,10 +65,10 @@ $(function () {
     });
 
     // View an image
-    viewer = new Viewer(document.getElementById('display-image'), {
+    viewer = new Viewer(document.getElementById('viewer-images'), {
         inline: true,
-        navbar: false,
-        title: false
+        navbar: true,
+        title: true
     });
     viewer.show();
 
@@ -80,13 +79,23 @@ $(function () {
 
         showLoading();
 
-        var fd = new FormData();
-        var files = $(this)[0].files;
+        let fd = new FormData();
+        let files = $(this)[0].files;
 
         // Check file selected or not
         if (files.length > 0) {
             fd.append('file', files[0]);
             console.log("Sending request to: " + window.UI.api_endpoint);
+
+            // Show original image
+            let reader = new FileReader();
+            reader.onload = (function() {
+                return function(e) {
+                    $("#viewer-images").html('<li><img src="' + e.target.result + '" alt="Original Image"></li>');
+                };
+            })();
+            reader.readAsDataURL(files[0]);
+
             $.ajax({
                 url: window.UI.api_endpoint,
                 type: 'post',
@@ -95,27 +104,24 @@ $(function () {
                 processData: false,
                 success: function (response) {
 
-                    if (response["success"]) {
-                        $("#display-image").attr("src", response["image"]);
-                        viewer.update();
-                        viewer.moveTo(0, 0);
-                    } else {
-                        alert('Error on processing! Please try again.');
-                    }
                     hideLoading();
-
+                    let results = response["results"];
                     let logResult = [];
                     let probaTitles = [];
                     let probaValues = [];
-                    let proba = response["proba"];
-                    for (var key in proba) {
-                        if (proba.hasOwnProperty(key)) {  
-                            let probaValue = (proba[key] * 100).toFixed(1);      
-                            logResult.push(key + ": " + probaValue + "%");
-                            probaTitles.push(key);
-                            probaValues.push(probaValue);
+                    for (let i = 0; i < results.length; ++i) {
+                        let result = results[i];
+                        let probaValue = (result["probability"] * 100).toFixed(1);      
+                        logResult.push(result["label"] + ": " + probaValue + "%");
+                        probaTitles.push(result["label"]);
+                        probaValues.push(probaValue);
+                        if ("image" in result) {
+                            let html = $("#viewer-images").html();
+                            $("#viewer-images").html(html + '<li><img src="' + result["image"] + '" alt="' + result["label"] + '"></li>');
                         }
                     }
+                    viewer.update();
+                    viewer.moveTo(0, 0);
 
                     // Update log
                     $("#output-log").val(logResult.join("\n"));

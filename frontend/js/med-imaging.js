@@ -12,6 +12,16 @@ $(function () {
         $(".loading-modal").hide();
     }
 
+    function initViewer() {
+        // View an image
+        viewer = new Viewer(document.getElementById('viewer-images'), {
+            inline: true,
+            navbar: true,
+            title: true
+        });
+        viewer.show();
+    }
+
     $.get("ui-config.json", function (data) {
 
         window.UI = {};
@@ -38,9 +48,11 @@ $(function () {
                     $('#section-menu li[name="' + section_id + '"]').addClass("active");
                     $("#output-log").val('');
                     window.UI.api_endpoint = section["api_endpoint"];
-                    $("#viewer-images").html('<img src="' + section["img_placeholder"] + '" alt="VN AIDr">');
-                    viewer.update();
-                    viewer.moveTo(0, 0);
+                    $("#viewer-images").html('<ul><li><img src="' + section["img_placeholder"] + '" alt="VN AIDr"></li></ul>');
+                    if (viewer) {
+                        viewer.destroy();
+                    }
+                    initViewer();
                     break;
                 }
             }
@@ -63,14 +75,6 @@ $(function () {
 
 
     });
-
-    // View an image
-    viewer = new Viewer(document.getElementById('viewer-images'), {
-        inline: true,
-        navbar: true,
-        title: true
-    });
-    viewer.show();
 
     $("#upload-btn").click(function () {
         $('#upload-file').click();

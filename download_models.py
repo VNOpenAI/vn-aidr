@@ -9,7 +9,7 @@ DATA_FILES = [
         "url": "https://drive.google.com/uc?id=1-vIVreY3gsI_9b_H8D9kQm-eV8Gk-Hvd"
     },
     {
-        "path": "trained_models/chest_xray_classification/chest_xray_effficentnetb4_20210114.onnx",
+        "path": "trained_models/chest_xray_classification/chest_xray_abnormalities_effficentnetb4_20210114.onnx",
         "url": "https://drive.google.com/uc?id=1N49KJ_naExOzSJVMKPcjpcHZrkPPO6gV"
     },
     {
@@ -29,7 +29,7 @@ DATA_FILES = [
         "url": "https://drive.google.com/uc?id=13SJCsvUdwZWciZIC4cbAhdrbVGqBPIZd"
     },
     {
-        "path": "trained_models/chest_xray_detection/chest_xray_abnomalities_20200118.pth",
+        "path": "trained_models/chest_xray_detection/chest_xray_abnormalities_20200118.pth",
         "url": "https://drive.google.com/uc?id=11aJO_cLaXtdYKb3M02BjuTQ3Uq1anwIe"
     }
 ]

@@ -8,7 +8,20 @@
             "layout": "default",
             "title": "Chest Radiograph Interpretation",
             "icon": "fa-x-ray",
-            "api_endpoint": "/api/chest_xray",
+            "models": [
+                {
+                    "id": "classify_5_abnormalities",
+                    "title": "Classification and Heatmap - 5 abnormalities",
+                    "api_endpoint": "/api/chest_xray_classification",
+                    "hide_sidebar": false
+                },
+                {
+                    "id": "detect_14_abnormalities",
+                    "title": "Detection - 14 abnormalities",
+                    "api_endpoint": "/api/chest_xray_detection",
+                    "hide_sidebar": true
+                }
+            ],
             "img_placeholder": "img/logo-no-text.png"
         },
         {
@@ -16,7 +29,14 @@
             "layout": "default",
             "title": "Lung CT Segmentation",
             "icon": "fa-layer-group",
-            "api_endpoint": "/api/lung_ct_seg",
+            "models": [
+                {
+                    "id": "lung_ct_seg",
+                    "title": "Lung CT Segmentation",
+                    "api_endpoint": "/api/lung_ct_seg",
+                    "hide_sidebar": false
+                }
+            ],
             "img_placeholder": "img/logo-no-text.png"
         }
     ]

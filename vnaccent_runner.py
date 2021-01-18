@@ -29,8 +29,6 @@ class VNAccentRunner():
         tokenizer = torch.load(ACCENT_MODEL_TOKENIZER_PATH)
         self.src_tokenizer = tokenizer['notone']
         self.trg_tokenizer = tokenizer['tone']
-        src_pad_token = 0
-        trg_pad_token = 0
 
         # Load model
         print("Init model")

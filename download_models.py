@@ -5,11 +5,11 @@ from pathlib import Path
 
 DATA_FILES = [
     {
-        "path": "trained_models/chest_xray/chest_xray_20210109_config.json",
+        "path": "trained_models/chest_xray_classification/chest_xray_20210109_config.json",
         "url": "https://drive.google.com/uc?id=1-vIVreY3gsI_9b_H8D9kQm-eV8Gk-Hvd"
     },
     {
-        "path": "trained_models/chest_xray/chest_xray_effficentnetb4_20210114.onnx",
+        "path": "trained_models/chest_xray_classification/chest_xray_effficentnetb4_20210114.onnx",
         "url": "https://drive.google.com/uc?id=1N49KJ_naExOzSJVMKPcjpcHZrkPPO6gV"
     },
     {

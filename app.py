@@ -4,12 +4,13 @@ import base64
 import cv2
 import numpy as np
 import uvicorn
-from fastapi import FastAPI, File
+from fastapi import FastAPI, File, Form
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 
-from chest_xray_runner import ChestXrayModelRunner
+from chest_xray_classification_runner import ChestXrayClassificationRunner
+from chest_xray_detection_runner import ChestXrayDetectionRunner
 from config import ENABLE_ACCENT_MODEL
 from download_models import download_models_and_data
 from lung_seg_runner import LungSegmentationRunner
@@ -41,7 +42,8 @@ app.mount("/ui/", StaticFiles(directory="frontend"), name="static")
 if ENABLE_ACCENT_MODEL:
     accent_model = VNAccentRunner()
 lung_seg_model = LungSegmentationRunner()
-chest_xray_model = ChestXrayModelRunner()
+chest_xray_model = ChestXrayClassificationRunner()
+chest_xray_detection_model = ChestXrayDetectionRunner()
 
 @app.post("/api/lung_ct_seg")
 def lung_ct_endpoint(file: bytes = File(...)):
@@ -57,23 +59,20 @@ def lung_ct_endpoint(file: bytes = File(...)):
     # out_img = cv2.hconcat([img, mask])
     out_img = img
 
-    # Return
-    _, im_png = cv2.imencode(".png", out_img)
-    encoded_img = base64.b64encode(im_png)
     response = {
         "success": True,
         "prepend_original_image": False,
         "results": [
             {
                 "label": "Segmentation Map",
-                "image": 'data:image/png;base64,{}'.format(encoded_img.decode())
+                "image": get_base64_png(out_img)
             }
         ]
     }
     return response
 
 
-@app.post("/api/chest_xray")
+@app.post("/api/chest_xray_classification")
 def chest_xray_endpoint(file: bytes = File(...)):
 
     nparr = np.fromstring(file, np.uint8)
@@ -111,6 +110,36 @@ def chest_xray_endpoint(file: bytes = File(...)):
     return response
 
 
+@app.post("/api/chest_xray_detection")
+def chest_xray_detection_endpoint(file: bytes = File(...), filename: str = Form(...)):
+
+    nparr = np.fromstring(file, np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    
+    # Inference
+    file_id = filename.split(".")[0]
+    gt_viz, pr_viz = chest_xray_detection_model.predict(img, file_id)
+
+    if gt_viz is not None:
+        pr_viz = cv2.resize(pr_viz, (gt_viz.shape[1], gt_viz.shape[0]))
+        out_img = cv2.hconcat([gt_viz, pr_viz])
+    else:
+        pr_viz = cv2.resize(pr_viz, (img.shape[1], img.shape[0]))
+        out_img = cv2.hconcat([img, pr_viz])
+
+    response = {
+        "success": True,
+        "prepend_original_image": False,
+        "results": [
+            {
+                "label": "Prediction Result",
+                "image": get_base64_png(out_img)
+            }
+        ]
+    }
+    return response
+
+
 # Process medical conclusion
 @app.get("/api/vn_accent")
 def accented(text):
@@ -127,4 +156,4 @@ def accented(text):
 
 if __name__ == '__main__':
     args = get_arg()
-    uvicorn.run("app:app",host='0.0.0.0', port=args.port, reload=True, debug=True, workers=1)
+    uvicorn.run("app:app", host='0.0.0.0', port=args.port, reload=True, debug=True, workers=1)

@@ -84,30 +84,6 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -127,6 +103,16 @@
 
                     <!-- Content Row -->
                     <div class="row mt-0">
+                        <div class="p-2" >
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Select model</span>
+                                </div>
+                                <select class="form-control" style="width: 20rem" id="model-selector">
+                                    <option>No model.</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="p-2">
                             <input style="display: none;" type="file" id="upload-file" name="file" />
                             <a id="upload-btn" href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mb-2"><i
@@ -137,11 +123,11 @@
                                 class="fas fa-download fa-sm"></i> Generate Report</a>
                         </div>
                     </div>
-                    <div class="row" style="position: relative;">    
-                        <div class="col col-12 col-sm-6 col-md-7 col-lg-9 col-xl-9" style="position: relative; height: 80vh;">
+                    <div class="d-flex" style="position: relative;">    
+                        <div style="height: 80vh; flex-grow: 1;">
                             <ul id="viewer-images" style="display: none"></ul>
                         </div>
-                        <div class="col col-12 col-sm-6 col-md-5 col-lg-3 col-xl-3" style="position: relative; height: 10vh;">
+                        <div id="prediction-sidebar" style="height: 10vh; width: 15rem; margin-left: 1rem;">
                             <h2 style="font-size: 1.2rem; text-align: center; margin-top: 2rem; color: #04d6b3; font-weight: bold;">
                                 OUTPUT
                             </h2>

@@ -37,6 +37,20 @@ $(function () {
         let sections = data["sections"];
         UI.sections = sections;
 
+        function updateModelSetting() {
+            let currentModelId = $( "#model-selector option:selected" ).val();
+            // Update sidebar
+            if (window.currentModels[currentModelId]["hide_sidebar"]) {
+                $("#prediction-sidebar").hide();
+            } else {
+                $("#prediction-sidebar").show();
+            }
+            window.UI.api_endpoint = window.currentModels[currentModelId]["api_endpoint"];
+        }
+        $("#model-selector").change(function() {
+            updateModelSetting();
+        });
+
         function selectFeature(section_id) {
             $("#proba-chart-wrapper").hide();
             $("#section-menu li").removeClass("active");
@@ -47,7 +61,19 @@ $(function () {
                     $('#section-title').html(section["title"]);
                     $('#section-menu li[name="' + section_id + '"]').addClass("active");
                     $("#output-log").val('');
-                    window.UI.api_endpoint = section["api_endpoint"];
+
+                    // Models
+                    let models = section["models"];
+                    window.currentModels = {};
+                    let html = "";
+                    for (let j = 0; j < models.length; ++j) {
+                        html += "<option value='" + models[j].id + "' api_endpoint='" +
+                            models[j].api_endpoint + "'>" + models[j].title + "</option>";
+                        window.currentModels[models[j]["id"]] = models[j];
+                    }
+                    $("#model-selector").html(html);
+                    updateModelSetting();
+
                     $("#viewer-images").html('<ul><li><img src="' + section["img_placeholder"] + '" alt="VN AIDr"></li></ul>');
                     if (viewer) {
                         viewer.destroy();
@@ -85,10 +111,14 @@ $(function () {
 
         let fd = new FormData();
         let files = $(this)[0].files;
+        let filepath = $(this)[0].value;
+        let startIndex = (filepath.indexOf('\\') >= 0 ? filepath.lastIndexOf('\\') : filepath.lastIndexOf('/'));
+        let filename = filepath.substring(startIndex).replace("\\", "")
 
         // Check file selected or not
         if (files.length > 0) {
             fd.append('file', files[0]);
+            fd.append('filename', filename);
             console.log("Sending request to: " + window.UI.api_endpoint);
 
             // Show original image
@@ -144,11 +174,15 @@ $(function () {
                     $("#output-log").val(logResult.join("\n"));
 
                     // Update chart
-                    $("#proba-chart-wrapper").fadeIn();
                     window.probaChartData.labels = probaTitles;
                     window.probaChartData.datasets[0].data = probaValues;
                     window.probaChart.update();
-
+                    if (probaValues.length > 0) {
+                        $("#proba-chart-wrapper").fadeIn();
+                    } else {
+                        $("#proba-chart-wrapper").fadeOut();
+                    }
+                    
                     $("#upload-file").val('');
                 },
                 error: function () {

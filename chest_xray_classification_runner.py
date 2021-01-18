@@ -7,23 +7,17 @@ import cv2
 import onnxruntime as rt
 from easydict import EasyDict as edict
 
-from model_utils.chest_xray_utils import *
+from model_utils.chest_xray_classification import *
 from model_utils.contours import *
 from config import *
 
-class ChestXrayModelRunner():
+class ChestXrayClassificationRunner():
 
     def __init__(self):
         self.model = rt.InferenceSession(CHEST_XRAY_MODEL_PATH)
         with open(CHEST_XRAY_CONFIG_PATH) as f:
             self.cfg = edict(json.load(f))
-        self.labels = [
-            'Cardiomegaly',
-            'Edema',
-            'Consolidation',
-            'Atelectasis',
-            'Pleural Effusion'
-        ]
+        self.labels = self.cfg.labels
     
     def predict(self, img):
         """

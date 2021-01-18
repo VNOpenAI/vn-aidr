@@ -19,6 +19,18 @@ DATA_FILES = [
     {
         "path": "trained_models/vn_accent/transformer_evolved_ep14.h5",
         "url": "https://drive.google.com/uc?id=1hbA78RVq5wdsM3H3YCn0YXyGP5D1DsLc"
+    },
+    {
+        "path": "trained_models/chest_xray_detection/train_meta.csv",
+        "url": "https://drive.google.com/uc?id=13YrjdHMSR2I2JIUHVw0t4lbgS_1JQRvF"
+    },
+    {
+        "path": "trained_models/chest_xray_detection/train.csv",
+        "url": "https://drive.google.com/uc?id=13SJCsvUdwZWciZIC4cbAhdrbVGqBPIZd"
+    },
+    {
+        "path": "trained_models/chest_xray_detection/chest_xray_abnomalities_20200118.pth",
+        "url": "https://drive.google.com/uc?id=11aJO_cLaXtdYKb3M02BjuTQ3Uq1anwIe"
     }
 ]
 

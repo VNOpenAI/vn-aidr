@@ -14,8 +14,8 @@ from config import *
 class ChestXrayClassificationRunner():
 
     def __init__(self):
-        self.model = rt.InferenceSession(CHEST_XRAY_MODEL_PATH)
-        with open(CHEST_XRAY_CONFIG_PATH) as f:
+        self.model = rt.InferenceSession(CHEST_XRAY_CLASSIFICATION_MODEL_PATH)
+        with open(CHEST_XRAY_CLASSIFICATION_CONFIG_PATH) as f:
             self.cfg = edict(json.load(f))
         self.labels = self.cfg.labels
     

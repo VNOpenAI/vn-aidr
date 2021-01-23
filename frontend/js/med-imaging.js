@@ -13,7 +13,10 @@ $(function () {
     }
 
     function initViewer() {
-        // View an image
+        if (viewer) {
+            viewer.destroy();
+        }
+        $("#viewer-images").html('<li><img src="' + window.UI["img_placeholder"] + '" alt="Original Image"></li>');
         viewer = new Viewer(document.getElementById('viewer-images'), {
             inline: true,
             navbar: true,
@@ -48,10 +51,6 @@ $(function () {
         }
         $("#model-selector").change(function() {
             updateModelSetting();
-            $("#viewer-images").html('<li><img src="' + window.UI["img_placeholder"] + '" alt="Original Image"></li>');
-            if (viewer) {
-                viewer.destroy();
-            }
             initViewer();
         });
 
@@ -77,11 +76,6 @@ $(function () {
                     }
                     $("#model-selector").html(html);
                     updateModelSetting();
-
-                    $("#viewer-images").html('<ul><li><img src="' + window.UI["img_placeholder"] + '" alt="VN AIDr"></li></ul>');
-                    if (viewer) {
-                        viewer.destroy();
-                    }
                     initViewer();
                     break;
                 }
@@ -125,11 +119,6 @@ $(function () {
             fd.append('filename', filename);
             console.log("Sending request to: " + window.UI.api_endpoint);
 
-            // Show original image
-            if (viewer) {
-                viewer.destroy();
-            }
-            initViewer();
             let reader = new FileReader();
             reader.onload = (function() {
                 return function(e) {
@@ -172,7 +161,6 @@ $(function () {
                         }
                     }
                     viewer.update();
-                    viewer.moveTo(0, 0);
 
                     // Update log
                     $("#output-log").val(logResult.join("\n"));
@@ -192,6 +180,7 @@ $(function () {
                 error: function () {
                     hideLoading();
                     $("#upload-file").val('');
+                    initViewer();
                 }
             });
             

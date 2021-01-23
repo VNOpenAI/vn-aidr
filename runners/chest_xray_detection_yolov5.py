@@ -20,15 +20,12 @@ from model_utils.yolov5.utils.plots import plot_one_box
 from model_utils.yolov5.utils.torch_utils import load_classifier, select_device
 
 
-
-
 class ChestXrayDetectionYOLOv5Runner():
 
     def __init__(self):
 
         cfg = ChestAbnormalitiesYOLOv5Config()
         self.cfg = cfg
-        # Initialize
         set_logging()
         self.device = select_device(cfg.device)
         self.half = self.device.type != 'cpu'  # half precision only supported on CUDA

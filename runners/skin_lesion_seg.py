@@ -7,16 +7,16 @@ import numpy as np
 import onnxruntime as rt
 
 from configs.common import *
-from configs.lung_ct_seg import LungCTSegmentationConfig
+from configs.skin_lesion import SkinLeisonSegmentationConfig
 from model_utils.contours import draw_contours, find_contours
 from model_utils.segmentation import postprocess_mask
 
 
-class LungSegmentationRunner():
+class SkinLesionSegmentationRunner():
 
     def __init__(self):
 
-        self.config  = LungCTSegmentationConfig()
+        self.config  = SkinLeisonSegmentationConfig()
         self.model = rt.InferenceSession(self.config.weights)
     
     def predict(self, img):
@@ -24,12 +24,16 @@ class LungSegmentationRunner():
         Input: BGR image
         Output: Segmented mask
         """
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        resized_img = cv2.resize(gray, (256, 256))
-        net_input = resized_img.astype(np.float32).reshape((1, 1, 256, 256))
+        resized_img = cv2.resize(img, self.config.img_size)
+        net_input = resized_img.astype(np.float32)
+        net_input = net_input - np.median(net_input) + 127.0
+        net_input /= 255.0
+        net_input = np.expand_dims(net_input, axis=0)
         ort_inputs = {self.model.get_inputs()[0].name: net_input}
         ort_outs = self.model.run(None, ort_inputs)
-        mask = ort_outs[0].reshape((256, 256))
+        mask = ort_outs[0][0][:, :, 1]
+        mask = cv2.resize(mask, self.config.img_size)
+        mask = (mask * 255).astype(np.uint8)
 
         # Process mask
         mask = postprocess_mask(img, mask)

@@ -10,6 +10,7 @@ Want to join us in this project? Send us a message via [our contact form](https:
 - Python 3.7 + Pip
 - NodeJS
 - Yarn
+- Detectron2: <https://detectron2.readthedocs.io/en/latest/tutorials/install.html>
 
 ## 1. Server 
 

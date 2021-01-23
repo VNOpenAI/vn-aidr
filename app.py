@@ -17,7 +17,7 @@ from runners.vn_accent import VNAccentRunner
 from runners.chest_xray_detection_detectron import ChestXrayDetectionDetectronRunner
 from runners.chest_xray_detection_yolov5 import ChestXrayDetectionYOLOv5Runner
 from runners.chest_xray_classification import ChestXrayClassificationRunner
-
+from runners.skin_lesion_seg import SkinLesionSegmentationRunner
 
 # Download models and data first
 download_models_and_data()
@@ -43,6 +43,7 @@ app.mount("/ui/", StaticFiles(directory="frontend"), name="static")
 if ENABLE_ACCENT_MODEL:
     accent_model = VNAccentRunner()
 lung_seg_model = LungSegmentationRunner()
+skin_lesion_seg_model = SkinLesionSegmentationRunner()
 chest_xray_model = ChestXrayClassificationRunner()
 chest_xray_detection_model = ChestXrayDetectionDetectronRunner()
 chest_xray_detection_yolov5_model = ChestXrayDetectionYOLOv5Runner()
@@ -59,6 +60,32 @@ def lung_ct_endpoint(file: bytes = File(...)):
 
     # Generate output image
     # out_img = cv2.hconcat([img, mask])
+    out_img = img
+
+    response = {
+        "success": True,
+        "prepend_original_image": False,
+        "results": [
+            {
+                "label": "Segmentation Map",
+                "image": get_base64_png(out_img)
+            }
+        ]
+    }
+    return response
+
+
+@app.post("/api/skin_lesion_seg")
+def skin_lesion_endpoint(file: bytes = File(...)):
+
+    nparr = np.fromstring(file, np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    
+    # Inference
+    mask = skin_lesion_seg_model.predict(img)
+    img = skin_lesion_seg_model.get_visualized_img(img, mask)
+
+    # Generate output image
     out_img = img
 
     response = {

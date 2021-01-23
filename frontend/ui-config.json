@@ -31,6 +31,20 @@
             ]
         },
         {
+            "id": "skin_lesion_seg",
+            "layout": "default",
+            "title": "Skin Analysis",
+            "icon": "fa-stethoscope",
+            "models": [
+                {
+                    "id": "skin_lesion_seg",
+                    "title": "Skin Lesion Segmentation",
+                    "api_endpoint": "/api/skin_lesion_seg",
+                    "hide_sidebar": false
+                }
+            ]
+        },
+        {
             "id": "lung_ct",
             "layout": "default",
             "title": "Lung CT Segmentation",

@@ -21,11 +21,11 @@ DATA_FILES = [
         "url": "https://drive.google.com/uc?id=1hbA78RVq5wdsM3H3YCn0YXyGP5D1DsLc"
     },
     {
-        "path": "trained_models/chest_xray_detection_detectron/chest_xray_abnormalities_20200118.pth",
+        "path": "trained_models/chest_xray_detection_detectron/chest_xray_abnormalities_20210118.pth",
         "url": "https://drive.google.com/uc?id=11aJO_cLaXtdYKb3M02BjuTQ3Uq1anwIe"
     },
     {
-        "path": "trained_models/chest_xray_detection_yolov5/chest_xray_abnomalities_20200123.pt",
+        "path": "trained_models/chest_xray_detection_yolov5/chest_xray_abnomalities_20210123.pt",
         "url": "https://drive.google.com/uc?id=1tTheR-kRcQGsQ5yjXL4M7n5-xpPcjJas"
     }
 ]

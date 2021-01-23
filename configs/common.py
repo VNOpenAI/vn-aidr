@@ -1,0 +1,2 @@
+USE_GPU = False
+ENABLE_ACCENT_MODEL = True

@@ -1,6 +1,4 @@
-import os
 import json
-import argparse
 
 import numpy as np
 import cv2
@@ -9,13 +7,17 @@ from easydict import EasyDict as edict
 
 from model_utils.chest_xray_classification import *
 from model_utils.contours import *
-from config import *
+from configs.common import *
+from configs.chest_abnormalities_classification import ChestXRayAbnormalitiesClassifierConfig
 
 class ChestXrayClassificationRunner():
 
     def __init__(self):
-        self.model = rt.InferenceSession(CHEST_XRAY_CLASSIFICATION_MODEL_PATH)
-        with open(CHEST_XRAY_CLASSIFICATION_CONFIG_PATH) as f:
+
+        self.config = ChestXRayAbnormalitiesClassifierConfig()
+
+        self.model = rt.InferenceSession(self.config.weights)
+        with open(self.config.config_file) as f:
             self.cfg = edict(json.load(f))
         self.labels = self.cfg.labels
     

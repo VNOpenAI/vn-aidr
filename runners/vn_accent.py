@@ -1,57 +1,40 @@
 import os
 import json
-import argparse
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from tqdm import tqdm
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from model_utils.vn_accent.accent_utils import extract_words, remove_tone_line
 from model_utils.vn_accent.models.transformer_utils.mask import create_src_mask
 from model_utils.vn_accent.models.model_factory import get_model
-from config import *
 
-def forward(model, src, src_pad_token=0, use_mask=True):
-    if use_mask:
-        src_mask = create_src_mask(src, pad_token=src_pad_token)
-        logit = model(src, src_mask)
-    else:
-        logit = model(src)
-    return logit
+from configs.common import *
+from configs.vn_accent import VNAccentConfig
 
 class VNAccentRunner():
 
     def __init__(self):
+
+        self.config = VNAccentConfig("transformer_evolved")
+
         # Load tokenizer
         print("Load tokenizer")
-        tokenizer = torch.load(ACCENT_MODEL_TOKENIZER_PATH)
+        tokenizer = torch.load(self.config.tokenizer_path)
         self.src_tokenizer = tokenizer['notone']
         self.trg_tokenizer = tokenizer['tone']
-
-        # Load model
-        print("Init model")
-        with open(ACCENT_MODEL_CONFIG_PATH) as f:
-            config = json.load(f)
         
-        if ACCENT_MODEL_NAME in config:
-            self.model_param = config[ACCENT_MODEL_NAME]
-        else:
-            raise Exception("Invalid model name")
-        
-        self.model_param['src_vocab_size'] = len(self.src_tokenizer.word_index) + 1
-        self.model_param['trg_vocab_size'] = len(self.trg_tokenizer.word_index) + 1
+        self.config.model_param['src_vocab_size'] = len(self.src_tokenizer.word_index) + 1
+        self.config.model_param['trg_vocab_size'] = len(self.trg_tokenizer.word_index) + 1
 
-        self.model = get_model(self.model_param)
+        self.model = get_model(self.config.model_param)
         self.device = torch.device('cuda' if torch.cuda.is_available() and USE_GPU else 'cpu')
         print("Using", self.device.type)
         if self.device.type=='cuda':
             self.model = self.model.cuda()
 
-        if os.path.isfile(ACCENT_MODEL_PATH):
+        if os.path.isfile(self.config.weights):
             print("Load model")
-            state = torch.load(ACCENT_MODEL_PATH, map_location=self.device)
+            state = torch.load(self.config.weights, map_location=self.device)
             if isinstance(state, dict):
                 self.model.load_state_dict(state['model'])
             else:
@@ -65,7 +48,7 @@ class VNAccentRunner():
         Input: No-tone sentence
         Output: Accent-added sentence
         """
-        res = VNAccentRunner.translate(self.model, text, self.src_tokenizer, self.trg_tokenizer, use_mask=self.model_param["use_mask"], device=self.device)
+        res = VNAccentRunner.translate(self.model, text, self.src_tokenizer, self.trg_tokenizer, use_mask=self.config.model_param["use_mask"], device=self.device)
         return res
 
 
@@ -126,3 +109,10 @@ class VNAccentRunner():
 
         return output
 
+def forward(model, src, src_pad_token=0, use_mask=True):
+    if use_mask:
+        src_mask = create_src_mask(src, pad_token=src_pad_token)
+        logit = model(src, src_mask)
+    else:
+        logit = model(src)
+    return logit

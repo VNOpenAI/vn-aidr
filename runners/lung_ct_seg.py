@@ -1,19 +1,23 @@
-import os
-import json
 import argparse
+import json
+import os
 
-import numpy as np
 import cv2
+import numpy as np
 import onnxruntime as rt
 
-from model_utils.lung_seg import postprocess_mask
-from model_utils.contours import find_contours, draw_contours
-from config import *
+from configs.common import *
+from configs.lung_ct_seg import LungCTSegmentationConfig
+from model_utils.contours import draw_contours, find_contours
+from model_utils.lung_ct_seg import postprocess_mask
+
 
 class LungSegmentationRunner():
 
     def __init__(self):
-        self.model = rt.InferenceSession(LUNG_CT_SEGMENTATION_MODEL_PATH)
+
+        self.config  = LungCTSegmentationConfig()
+        self.model = rt.InferenceSession(self.config.weights)
     
     def predict(self, img):
         """

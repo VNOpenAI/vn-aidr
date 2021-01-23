@@ -1,15 +1,5 @@
-from model_utils.yolov5.utils.torch_utils import load_classifier, select_device
-from model_utils.yolov5.utils.plots import plot_one_box
-from model_utils.yolov5.utils.general import (apply_classifier, check_img_size,
-                                              check_requirements,
-                                              increment_path,
-                                              non_max_suppression,
-                                              scale_coords, set_logging,
-                                              strip_optimizer, xyxy2xywh)
-from model_utils.yolov5.models.experimental import attempt_load
-from model_utils.chest_xray_detection import visualize_ground_truth
-from config import *
 import sys
+sys.path.append("model_utils/yolov5")
 
 import cv2
 import numpy as np
@@ -18,14 +8,25 @@ import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
 
-sys.path.append("model_utils/yolov5")
+from configs.chest_abnormalities_detection import \
+    ChestAbnormalitiesYOLOv5Config
+from configs.common import *
+from model_utils.yolov5.models.experimental import attempt_load
+from model_utils.yolov5.utils.general import (apply_classifier, check_img_size,
+                                              non_max_suppression,
+                                              scale_coords, set_logging,
+                                              xyxy2xywh)
+from model_utils.yolov5.utils.plots import plot_one_box
+from model_utils.yolov5.utils.torch_utils import load_classifier, select_device
+
+
 
 
 class ChestXrayDetectionYOLOv5Runner():
 
     def __init__(self):
 
-        cfg = YOLOConfig()
+        cfg = ChestAbnormalitiesYOLOv5Config()
         self.cfg = cfg
         # Initialize
         set_logging()
@@ -59,8 +60,6 @@ class ChestXrayDetectionYOLOv5Runner():
         _ = self.model(img.half(
         ) if self.half else img) if self.device.type != 'cpu' else None  # run once
 
-        self.train_df = pd.read_csv(CHEST_XRAY_DETECTION_TRAIN_FILE)
-        self.train_meta_df = pd.read_csv(CHEST_XRAY_DETECTION_META_FILE)
 
     def predict(self, img0, img_id):
         """
@@ -70,10 +69,9 @@ class ChestXrayDetectionYOLOv5Runner():
         # Padded resize
         img = letterbox(img0, new_shape=self.imgsz)[0]
 
-        # Convert
+        # Prepare image as net input
         img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
         img = np.ascontiguousarray(img)
-
         img = torch.from_numpy(img).to(self.device)
         img = img.half() if self.half else img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -126,12 +124,7 @@ class ChestXrayDetectionYOLOv5Runner():
             lineType=cv2.LINE_AA,
         )
 
-        gt_viz = visualize_ground_truth(
-            img0, img_id, self.train_df, self.train_meta_df)
-        if gt_viz is None:
-            gt_viz = img.copy()
-
-        return gt_viz, draw
+        return draw
 
 
 def letterbox(img, new_shape=(640, 640), color=(114, 114, 114), auto=True, scaleFill=False, scaleup=True):

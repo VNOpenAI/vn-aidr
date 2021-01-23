@@ -31,6 +31,10 @@ DATA_FILES = [
     {
         "path": "trained_models/chest_xray_detection/chest_xray_abnormalities_20200118.pth",
         "url": "https://drive.google.com/uc?id=11aJO_cLaXtdYKb3M02BjuTQ3Uq1anwIe"
+    },
+    {
+        "path": "trained_models/chest_xray_detection/chest_xray_abnormalities_20200118.pth",
+        "url": "https://drive.google.com/uc?id=11aJO_cLaXtdYKb3M02BjuTQ3Uq1anwIe"
     }
 ]
 

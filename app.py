@@ -1,6 +1,4 @@
 import argparse
-import base64
-from chest_xray_detection_yolov5_runner import ChestXrayDetectionYOLOv5Runner
 
 import cv2
 import numpy as np
@@ -10,13 +8,16 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 
-from chest_xray_classification_runner import ChestXrayClassificationRunner
-from chest_xray_detection_runner import ChestXrayDetectionRunner
-from config import ENABLE_ACCENT_MODEL
-from download_models import download_models_and_data
-from lung_seg_runner import LungSegmentationRunner
-from vnaccent_runner import VNAccentRunner
 from model_utils.transforms import get_base64_png
+from configs.common import ENABLE_ACCENT_MODEL
+from download_models import download_models_and_data
+
+from runners.lung_ct_seg import LungSegmentationRunner
+from runners.vn_accent import VNAccentRunner
+from runners.chest_xray_detection_detectron import ChestXrayDetectionDetectronRunner
+from runners.chest_xray_detection_yolov5 import ChestXrayDetectionYOLOv5Runner
+from runners.chest_xray_classification import ChestXrayClassificationRunner
+
 
 # Download models and data first
 download_models_and_data()
@@ -43,7 +44,7 @@ if ENABLE_ACCENT_MODEL:
     accent_model = VNAccentRunner()
 lung_seg_model = LungSegmentationRunner()
 chest_xray_model = ChestXrayClassificationRunner()
-chest_xray_detection_model = ChestXrayDetectionRunner()
+chest_xray_detection_model = ChestXrayDetectionDetectronRunner()
 chest_xray_detection_yolov5_model = ChestXrayDetectionYOLOv5Runner()
 
 @app.post("/api/lung_ct_seg")
@@ -119,14 +120,10 @@ def chest_xray_detection_endpoint(file: bytes = File(...), filename: str = Form(
     
     # Inference
     file_id = filename.split(".")[0]
-    gt_viz, pr_viz = chest_xray_detection_model.predict(img, file_id)
+    pr_viz = chest_xray_detection_model.predict(img, file_id)
 
-    if gt_viz is not None:
-        pr_viz = cv2.resize(pr_viz, (gt_viz.shape[1], gt_viz.shape[0]))
-        out_img = cv2.hconcat([gt_viz, pr_viz])
-    else:
-        pr_viz = cv2.resize(pr_viz, (img.shape[1], img.shape[0]))
-        out_img = cv2.hconcat([img, pr_viz])
+    pr_viz = cv2.resize(pr_viz, (img.shape[1], img.shape[0]))
+    out_img = cv2.hconcat([img, pr_viz])
 
     response = {
         "success": True,
@@ -150,14 +147,10 @@ def chest_xray_detection_yolov5_endpoint(file: bytes = File(...), filename: str 
     
     # Inference
     file_id = filename.split(".")[0]
-    gt_viz, pr_viz = chest_xray_detection_yolov5_model.predict(img, file_id)
+    pr_viz = chest_xray_detection_yolov5_model.predict(img, file_id)
 
-    if gt_viz is not None:
-        pr_viz = cv2.resize(pr_viz, (gt_viz.shape[1], gt_viz.shape[0]))
-        out_img = cv2.hconcat([gt_viz, pr_viz])
-    else:
-        pr_viz = cv2.resize(pr_viz, (img.shape[1], img.shape[0]))
-        out_img = cv2.hconcat([img, pr_viz])
+    pr_viz = cv2.resize(pr_viz, (img.shape[1], img.shape[0]))
+    out_img = cv2.hconcat([img, pr_viz])
 
     response = {
         "success": True,

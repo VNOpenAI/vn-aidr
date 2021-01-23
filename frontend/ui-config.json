@@ -2,6 +2,7 @@
     "title": "VN AIDr - AI solutions for medical imaging",
     "sidebar-brand-text": "VN AIDoctor",
     "logo": "img/logo.png",
+    "img_placeholder": "img/logo-no-text.png",
     "sections": [
         {
             "id": "chest_xray",
@@ -20,9 +21,14 @@
                     "title": "Detection - 14 abnormalities",
                     "api_endpoint": "/api/chest_xray_detection",
                     "hide_sidebar": true
+                },
+                {
+                    "id": "detect_14_abnormalities_yolov5",
+                    "title": "YOLOv5 - Detection - 14 abnormalities",
+                    "api_endpoint": "/api/chest_xray_detection_yolov5",
+                    "hide_sidebar": true
                 }
-            ],
-            "img_placeholder": "img/logo-no-text.png"
+            ]
         },
         {
             "id": "lung_ct",
@@ -36,8 +42,7 @@
                     "api_endpoint": "/api/lung_ct_seg",
                     "hide_sidebar": false
                 }
-            ],
-            "img_placeholder": "img/logo-no-text.png"
+            ]
         }
     ]
 }

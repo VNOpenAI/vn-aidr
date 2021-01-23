@@ -1,3 +1,6 @@
 [submodule "model_utils/vn_accent"]
 	path = model_utils/vn_accent
 	url = https://github.com/VNOpenAI/vn-accent.git
+[submodule "model_utils/yolov5"]
+	path = model_utils/yolov5
+	url = https://github.com/ultralytics/yolov5

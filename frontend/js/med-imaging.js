@@ -24,7 +24,7 @@ $(function () {
 
     $.get("ui-config.json", function (data) {
 
-        window.UI = {};
+        window.UI = data;
         var UI = window.UI;
 
         // Update document attributes
@@ -35,7 +35,6 @@ $(function () {
         // Load pages
         let section_menu_html = "";
         let sections = data["sections"];
-        UI.sections = sections;
 
         function updateModelSetting() {
             let currentModelId = $( "#model-selector option:selected" ).val();
@@ -49,6 +48,11 @@ $(function () {
         }
         $("#model-selector").change(function() {
             updateModelSetting();
+            $("#viewer-images").html('<li><img src="' + window.UI["img_placeholder"] + '" alt="Original Image"></li>');
+            if (viewer) {
+                viewer.destroy();
+            }
+            initViewer();
         });
 
         function selectFeature(section_id) {
@@ -74,7 +78,7 @@ $(function () {
                     $("#model-selector").html(html);
                     updateModelSetting();
 
-                    $("#viewer-images").html('<ul><li><img src="' + section["img_placeholder"] + '" alt="VN AIDr"></li></ul>');
+                    $("#viewer-images").html('<ul><li><img src="' + window.UI["img_placeholder"] + '" alt="VN AIDr"></li></ul>');
                     if (viewer) {
                         viewer.destroy();
                     }

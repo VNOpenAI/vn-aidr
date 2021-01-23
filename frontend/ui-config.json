@@ -12,19 +12,19 @@
             "models": [
                 {
                     "id": "classify_5_abnormalities",
-                    "title": "Classification and Heatmap - 5 abnormalities",
+                    "title": "Classification 5 abnormalities - EfficientNetB4",
                     "api_endpoint": "/api/chest_xray_classification",
                     "hide_sidebar": false
                 },
                 {
-                    "id": "detect_14_abnormalities",
-                    "title": "Detection - 14 abnormalities",
+                    "id": "detect_14_abnormalities_detectron2",
+                    "title": "Detection 14 abnormalities - FasterRCNN",
                     "api_endpoint": "/api/chest_xray_detection",
                     "hide_sidebar": true
                 },
                 {
                     "id": "detect_14_abnormalities_yolov5",
-                    "title": "YOLOv5 - Detection - 14 abnormalities",
+                    "title": "Detection 14 abnormalities - YOLOv5",
                     "api_endpoint": "/api/chest_xray_detection_yolov5",
                     "hide_sidebar": true
                 }

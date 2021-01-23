@@ -33,8 +33,8 @@ class ChestXrayDetectionYOLOv5Runner():
         # Load model
         self.model = attempt_load(
             cfg.weights, map_location=self.device)  # load FP32 model
-        self.imgsz = check_img_size(
-            cfg.imgsz, s=self.model.stride.max())  # check img_size
+        self.img_size = check_img_size(
+            cfg.img_size, s=self.model.stride.max())  # check img_size
         if self.half:
             self.model.half()  # to FP16
 
@@ -52,7 +52,7 @@ class ChestXrayDetectionYOLOv5Runner():
                         for _ in range(3)] for _ in self.names]
 
         # Run inference
-        img = torch.zeros((1, 3, self.imgsz, self.imgsz),
+        img = torch.zeros((1, 3, self.img_size, self.img_size),
                           device=self.device)  # init img
         _ = self.model(img.half(
         ) if self.half else img) if self.device.type != 'cpu' else None  # run once
@@ -64,7 +64,7 @@ class ChestXrayDetectionYOLOv5Runner():
         """
 
         # Padded resize
-        img = letterbox(img0, new_shape=self.imgsz)[0]
+        img = letterbox(img0, new_shape=self.img_size)[0]
 
         # Prepare image as net input
         img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416

@@ -1,5 +1,5 @@
 class ChestAbnormalitiesDetectron2Config:
-    weights = "trained_models/chest_xray_detection/chest_xray_abnormalities_20200118.pth"
+    weights = "trained_models/chest_xray_detection_detectron/chest_xray_abnormalities_20200118.pth"
     labels = [
         'Aortic enlargement',
         'Atelectasis',

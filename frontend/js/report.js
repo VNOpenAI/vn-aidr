@@ -35,9 +35,6 @@ $("#gen-pdf-btn").click(function() {
     doc.text(15, 40, 'Patient Name: ' + patientName)
     doc.text(15, 50, doc.splitTextToSize("Conclusion: " + medicalConclusion, 180))
 
-    let img = new Image()
-    img.src = $("#display-image").attr("src");
-    doc.addImage(img, 'png', 15, 55, 150, 150)
 
     doc.save('medical-report.pdf')
 });

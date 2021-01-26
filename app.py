@@ -146,11 +146,11 @@ def chest_xray_detection_endpoint(file: bytes = File(...), filename: str = Form(
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
     # Inference
-    file_id = filename.split(".")[0]
-    pr_viz = chest_xray_detection_model.predict(img, file_id)
+    img_id = filename.split(".")[0]
+    pr_viz, gt_viz = chest_xray_detection_model.predict(img, img_id=img_id, draw_gt=True)
 
-    pr_viz = cv2.resize(pr_viz, (img.shape[1], img.shape[0]))
-    out_img = cv2.hconcat([img, pr_viz])
+    pr_viz = cv2.resize(pr_viz, (gt_viz.shape[1], gt_viz.shape[0]))
+    out_img = cv2.hconcat([gt_viz, pr_viz])
 
     response = {
         "success": True,
@@ -173,11 +173,11 @@ def chest_xray_detection_yolov5_endpoint(file: bytes = File(...), filename: str 
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
     # Inference
-    file_id = filename.split(".")[0]
-    pr_viz = chest_xray_detection_yolov5_model.predict(img, file_id)
+    img_id = filename.split(".")[0]
+    pr_viz, gt_viz = chest_xray_detection_yolov5_model.predict(img, img_id=img_id, draw_gt=True)
 
-    pr_viz = cv2.resize(pr_viz, (img.shape[1], img.shape[0]))
-    out_img = cv2.hconcat([img, pr_viz])
+    pr_viz = cv2.resize(pr_viz, (gt_viz.shape[1], gt_viz.shape[0]))
+    out_img = cv2.hconcat([gt_viz, pr_viz])
 
     response = {
         "success": True,

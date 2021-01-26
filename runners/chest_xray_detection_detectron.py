@@ -30,11 +30,23 @@ class ChestXrayDetectionDetectronRunner():
         c.MODEL.ROI_HEADS.NUM_CLASSES = len(self.config.labels)
         c.MODEL.ROI_HEADS.SCORE_THRESH_TEST = self.config.conf_thres
         self.predictor = DefaultPredictor(c)
+
+        # Load ground truth data for demo
+        self.train_df = pd.read_csv(CHEST_XRAY_DETECTION_TRAIN_FILE)
+        self.train_meta_df = pd.read_csv(CHEST_XRAY_DETECTION_META_FILE)
     
-    def predict(self, img, img_id):
+    def predict(self, img, img_id=None, draw_gt=False):
         """
         Input: BGR images
         """
 
         pr_viz = predict_and_visualize(self.predictor, img, self.config.labels, viz_size=(img.shape[1], img.shape[0]))
+
+        if draw_gt:
+            gt_viz = visualize_ground_truth(
+                img, img_id, self.train_df, self.train_meta_df)
+            if gt_viz is None:
+                gt_viz = img.copy()
+            return pr_viz, gt_viz
+
         return pr_viz

@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import pandas as pd
 
 def _resize_read_xray(data_shape, bbox, new_shape):
     """
@@ -88,3 +89,62 @@ def predict_and_visualize(
     )
 
     return draw
+
+
+def visualize_ground_truth(image,
+                           img_id,
+                           df: pd.DataFrame,
+                           original_df: pd.DataFrame):
+    """Visualize ground truth bounding boxes
+    Args:
+        image: BGR image - OpenCV format
+        img_id (str): image id - image name without file extension
+        df (pd.DataFrame)
+        original_df (pd.DataFrame)
+    """
+
+    image = image.copy()
+
+    try:
+        original_size = original_df[original_df.image_id ==
+                                    img_id].values[0, -2:]
+        bboxes = df.loc[df['image_id'] == img_id, [
+            'x_min',	'y_min', 'x_max', 'y_max']].values
+        bboxes = [list(_resize_read_xray(original_size, tuple(
+            bbox), image.shape[:2])) for bbox in bboxes]
+        class_names = df.loc[df['image_id'] == img_id, ['class_name']].values
+    except:
+        return None
+
+    for box, class_name in zip(bboxes, class_names):
+        cv2.rectangle(image, (box[0], box[1]),
+                      (box[2], box[3]), (0, 0, 255), 1)
+        (text_width, text_height), _ = cv2.getTextSize(
+            class_name[0], cv2.FONT_HERSHEY_SIMPLEX, 1.0, 1)
+        cv2.rectangle(image, (box[0], box[1] - int(1.3 * text_height)),
+                      (box[0] + text_width, box[1]), (0, 0, 255), -1)
+        cv2.putText(
+            image,
+            text=class_name[0],
+            org=(box[0], box[1] - int(0.3 * text_height)),
+            fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+            fontScale=1.0,
+            color=(0, 0, 0),
+            lineType=cv2.LINE_AA,
+        )
+
+    label = "Ground Truth"
+    (text_width, text_height), _ = cv2.getTextSize(
+        label, cv2.FONT_HERSHEY_SIMPLEX, 1.0, 1)
+    cv2.rectangle(image, (0, 0), (20 + text_width, 40), (0, 255, 0), -1)
+    cv2.putText(
+        image,
+        text=label,
+        org=(10, 30),
+        fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+        fontScale=1.0,
+        color=(0, 0, 0),
+        lineType=cv2.LINE_AA,
+    )
+
+    return image

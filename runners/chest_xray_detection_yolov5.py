@@ -11,6 +11,7 @@ from numpy import random
 from configs.chest_abnormalities_detection import \
     ChestAbnormalitiesYOLOv5Config
 from configs.common import *
+from model_utils.chest_xray_detection import visualize_ground_truth
 from model_utils.yolov5.models.experimental import attempt_load
 from model_utils.yolov5.utils.general import (apply_classifier, check_img_size,
                                               non_max_suppression,
@@ -57,8 +58,12 @@ class ChestXrayDetectionYOLOv5Runner():
         _ = self.model(img.half(
         ) if self.half else img) if self.device.type != 'cpu' else None  # run once
 
+        # Load ground truth data for demo
+        self.train_df = pd.read_csv(CHEST_XRAY_DETECTION_TRAIN_FILE)
+        self.train_meta_df = pd.read_csv(CHEST_XRAY_DETECTION_META_FILE)
 
-    def predict(self, img0, img_id):
+
+    def predict(self, img0, img_id=None, draw_gt=False):
         """
         Input: BGR images
         """
@@ -120,6 +125,14 @@ class ChestXrayDetectionYOLOv5Runner():
             color=(0, 0, 0),
             lineType=cv2.LINE_AA,
         )
+
+
+        if draw_gt:
+            gt_viz = visualize_ground_truth(
+                img0, img_id, self.train_df, self.train_meta_df)
+            if gt_viz is None:
+                gt_viz = img0.copy()
+            return draw, gt_viz
 
         return draw
 

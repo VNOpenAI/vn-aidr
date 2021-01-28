@@ -27,6 +27,18 @@ DATA_FILES = [
     {
         "path": "trained_models/chest_xray_detection_yolov5/chest_xray_abnomalities_20210123.pt",
         "url": "https://drive.google.com/uc?id=1tTheR-kRcQGsQ5yjXL4M7n5-xpPcjJas"
+    },
+    {
+        "path": "trained_models/chest_xray_detection_detectron/train_meta.csv",
+        "url": "https://drive.google.com/uc?id=13YrjdHMSR2I2JIUHVw0t4lbgS_1JQRvF"
+    },
+    {
+        "path": "trained_models/chest_xray_detection_detectron/train.csv",
+        "url": "https://drive.google.com/uc?id=13SJCsvUdwZWciZIC4cbAhdrbVGqBPIZd"
+    },
+    {
+        "path": "trained_models/skin_lesion/skin_lesion_segmentation_20210123.onnx",
+        "url": "https://drive.google.com/uc?id=1ZDpJwKrm0hXxkmZe_99qgpe4MMRxIpZa"
     }
 ]
 

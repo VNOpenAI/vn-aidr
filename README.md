@@ -6,7 +6,10 @@ This project contains baseline models for medical image processing and a web use
 
 Want to join us in this project? Send us a message via [our contact form](https://vnopenai.org/contact/).
 
-![VN AIDr - Prediction](screenshots/screen.png)
+<a href="https://youtu.be/pw62Hxy-BeE">
+  <p><b>Click following image to play demo video.</b></p>
+<img src="screenshots/screen.png" alt="VN AIDr - Prediction">
+</a>
 ## Requirements
 
 - Python 3.7 + Pip

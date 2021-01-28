@@ -1,5 +1,7 @@
 # VN AIDr - Open source medical image processing project
 
+Project documentation (only Vietnamese): <https://dr.vnopenai.org/>.
+
 This project contains baseline models for medical image processing and a web user interface for interacting with the system. Our goal is to create an open source code base for students, hobbylists, engineers, or even researchers to get familar with image processing, machine learning and deep learning through medical image processing problems. In this system, we also integrate natural language processing (NLP) models for automatic completion of medical reports.
 
 Want to join us in this project? Send us a message via [our contact form](https://vnopenai.org/contact/).

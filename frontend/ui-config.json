@@ -1,8 +1,8 @@
 {
     "title": "VN AIDr - AI solutions for medical imaging",
     "sidebar-brand-text": "VN AIDoctor",
-    "logo": "img/logo.png",
-    "img_placeholder": "img/logo-no-text.png",
+    "logo": "img/logo.svg",
+    "img_placeholder": "img/logo.svg",
     "sections": [
         {
             "id": "chest_xray",

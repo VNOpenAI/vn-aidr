@@ -10,6 +10,7 @@ Want to join us in this project? Send us a message via [our contact form](https:
   <p><b>Click following image to play demo video.</b></p>
 <img src="screenshots/screen.png" alt="VN AIDr - Prediction">
 </a>
+
 ## Requirements
 
 - Python 3.7 + Pip

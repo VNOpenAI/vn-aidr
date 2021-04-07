@@ -13,21 +13,35 @@ Want to join us in this project? Send us a message via [our contact form](https:
 
 ## Requirements
 
-- Python 3.7 + Pip
-- NodeJS
-- Yarn
+- Python 3.6 + Pip
 - Detectron2: <https://detectron2.readthedocs.io/en/latest/tutorials/install.html>
+- NodeJS + Yarn for frontend development
 
 ## 1. Server 
 
 - Download pretrained models [here](https://drive.google.com/drive/folders/1TtcVLluJhGSNIrAGoT1txQA1ob78lFFp?usp=sharing) and extract them into `trained_models`.
 
+- Install requirements:
+
 ```
 pip install -r requirements.txt
-python app.py
 ```
 
-- Open `http://localhost:5000` in your browser.
+Or for requirements for CUDA support (require CUDA 10.2):
+
+```
+pip install -r requirements-gpu.txt
+```
+
+- Update `USE_GPU` in `configs/common.py` to `True` to enable GPU support.
+
+- Run the server:
+
+```
+python app.py --port 8080
+```
+
+- Open `http://localhost:8080` in your browser to access web UI.
 
 
 ## 2. Frontend (UI)
@@ -47,6 +61,42 @@ cd frontend
 yarn
 yarn build
 ```
+
+## 3. Deployment using Docker
+
+### Without GPU support
+
+- Build image
+
+```
+docker build . -t vnaidr
+```
+
+- Run server
+
+```
+docker run -it -p 8080:8080 vnaidr
+```
+
+- Open `http://localhost:8080` in your browser to access web UI.
+
+### With GPU support (Only NVIDIA GPU with CUDA)
+
+- Update `USE_GPU` in `configs/common.py` to `True` to enable GPU support.
+
+- Build image
+
+```
+docker build -t vnaidr-gpu -f Dockerfile-gpu .
+```
+
+- Run server
+
+```
+docker run --gpus all -it  -p 8080:8080  vnaidr-gpu
+```
+
+- Open `http://localhost:8080` in your browser to access web UI.
 
 ## Copyright and License
 

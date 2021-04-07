@@ -14,7 +14,7 @@ pandas==1.1.5
 seaborn==0.11.1
 easydict==1.9
 python-multipart==0.0.5
--f https://download.pytorch.org/whl/torch_stable.html
-torch==1.7.1+cpu
--f https://download.pytorch.org/whl/torch_stable.html
-torchvision==0.8.2+cpu
+-f https://download.pytorch.org/whl/cu102/torch_stable.html
+torch==1.7.1
+-f https://download.pytorch.org/whl/cu102/torch_stable.html
+torchvision==0.8.2 

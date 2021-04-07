@@ -24,7 +24,7 @@ download_models_and_data()
 
 def get_arg():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--port', type=int, default=5000, required=False)
+    parser.add_argument('--port', type=int, default=80, required=False)
     args = parser.parse_args()
     return args
 
@@ -208,4 +208,4 @@ def accented(text):
 
 if __name__ == '__main__':
     args = get_arg()
-    uvicorn.run("app:app", host='0.0.0.0', port=args.port, reload=True, debug=True, workers=1)
+    uvicorn.run("app:app", host='0.0.0.0', port=args.port)

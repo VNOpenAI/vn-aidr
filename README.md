@@ -19,7 +19,7 @@ Want to join us in this project? Send us a message via [our contact form](https:
 
 ## 1. Server 
 
-- Download pretrained models [here](https://drive.google.com/drive/folders/1TtcVLluJhGSNIrAGoT1txQA1ob78lFFp?usp=sharing) and extract them into `trained_models`.
+- Download pretrained models [here](https://1drv.ms/u/s!Av71xxzl6mYZgdccHa-fk9Fpnixw0Q?e=h757xp) and extract them into `trained_models`.
 
 - Install requirements:
 
